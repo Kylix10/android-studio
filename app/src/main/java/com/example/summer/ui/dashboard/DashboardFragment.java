@@ -14,8 +14,12 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.example.summer.R;
 
 public class DashboardFragment extends Fragment {
@@ -36,6 +40,14 @@ public class DashboardFragment extends Fragment {
 
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
+
+        // 设置地图初始中心点为承德避暑山庄
+        LatLng chengdeSummerResort = new LatLng(40.9978, 117.9413);
+        // 设置缩放级别，可根据需要调整
+        float zoomLevel = 15.8f;
+        MapStatus mapStatus = new MapStatus.Builder().target(chengdeSummerResort).zoom(zoomLevel).build();
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        mBaiduMap.setMapStatus(mapStatusUpdate);
 
         // 初始化定位
         try {
@@ -102,7 +114,7 @@ public class DashboardFragment extends Fragment {
             }
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    // 此处设置开发者获取到的方向信息，顺时针0 - 360
                     .direction(location.getDirection()).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
