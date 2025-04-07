@@ -5,6 +5,13 @@ plugins {
 android {
     namespace = "com.example.summer"
     compileSdk = 35
+    packaging {
+        resources {
+            excludes.add("META-INF/license.txt")
+            excludes.add("META-INF/notice.txt")
+        }
+    }
+
 
     defaultConfig {
         applicationId = "com.example.summer"
@@ -52,4 +59,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+//    implementation ("org.springframework:spring-web:5.3.28")
 }
