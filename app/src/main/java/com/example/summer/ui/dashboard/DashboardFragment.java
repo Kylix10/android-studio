@@ -32,8 +32,9 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import androidx.appcompat.app.AlertDialog;
+//import androidx.appcompat.app.AlertDialog;
 import com.example.summer.R;
+import com.example.summer.utils.NetworkUtils;
 import com.example.summer.utils.WenXin;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.widget.TextView;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class DashboardFragment extends Fragment {
 
@@ -385,6 +390,8 @@ public class DashboardFragment extends Fragment {
             requireActivity().runOnUiThread(() ->
                     Toast.makeText(requireContext(), "解析失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
             );
+        }
+    }
 
     private void showIntroductionDialog(String introduction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
