@@ -1,6 +1,10 @@
 package com.example.summer.ui.dashboard;
 
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.TextView;
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,10 +34,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import androidx.appcompat.app.AlertDialog;
 import com.example.summer.R;
-import com.example.summer.utils.NetworkUtils;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import com.example.summer.utils.WenXin;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -74,29 +75,12 @@ public class DashboardFragment extends Fragment {
         // 初始化搜索组件
         addressSearchEditText = root.findViewById(R.id.address_search_edit_text);
         searchButton = root.findViewById(R.id.search_button);
+
         searchButton.setOnClickListener(v -> {
             String address = addressSearchEditText.getText().toString().trim();
             if (!address.isEmpty()) {
-                NetworkUtils.getLocationFromAddress(address, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        requireActivity().runOnUiThread(() ->
-                                Toast.makeText(requireContext(), "请求失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
-                        );
-                    }
+                new WenXinTask().execute(address);
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                            String json = response.body().string();
-                            parseJSONResponse(json);
-                        } else {
-                            requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(requireContext(), "请求失败，状态码：" + response.code(), Toast.LENGTH_SHORT).show()
-                            );
-                        }
-                    }
-                });
             } else {
                 Toast.makeText(requireContext(), "请输入地址", Toast.LENGTH_SHORT).show();
             }
@@ -130,6 +114,7 @@ public class DashboardFragment extends Fragment {
 
         return root;
     }
+
 
     private void showStartPointDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -400,7 +385,25 @@ public class DashboardFragment extends Fragment {
             requireActivity().runOnUiThread(() ->
                     Toast.makeText(requireContext(), "解析失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
             );
+
+    private void showIntroductionDialog(String introduction) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_location_introduction, null);
+        builder.setView(view);
+
+        TextView locationIntroductionText = view.findViewById(R.id.location_introduction_text);
+        if (introduction != null &&!introduction.isEmpty()) {
+            locationIntroductionText.setText(introduction);
+        } else {
+            locationIntroductionText.setText("无介绍内容");
+
         }
+
+        builder.setPositiveButton("确定", (dialog, which) -> dialog.dismiss());
+        builder.setTitle("简介");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void initLocation() {
@@ -457,6 +460,31 @@ public class DashboardFragment extends Fragment {
                     .longitude(location.getLongitude())
                     .build();
             mBaiduMap.setMyLocationData(locData);
+        }
+    }
+
+    private class WenXinTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String address = params[0];
+            WenXin wenXin = new WenXin();
+            try {
+                return wenXin.getLocationIntroduction(address);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                showIntroductionDialog(result);
+            } else {
+                Log.e("WenXin", "请求失败");
+                Toast.makeText(requireContext(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
