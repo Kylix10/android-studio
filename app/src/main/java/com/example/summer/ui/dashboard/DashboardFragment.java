@@ -1,6 +1,10 @@
 package com.example.summer.ui.dashboard;
 
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.TextView;
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,12 +28,8 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.summer.R;
-import com.example.summer.utils.NetworkUtils;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import com.example.summer.utils.WenXin;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -57,30 +57,11 @@ public class DashboardFragment extends Fragment {
         // 初始化搜索组件
         addressSearchEditText = root.findViewById(R.id.address_search_edit_text);
         searchButton = root.findViewById(R.id.search_button);
+
         searchButton.setOnClickListener(v -> {
             String address = addressSearchEditText.getText().toString().trim();
             if (!address.isEmpty()) {
-                //System.out.println("请求URL：" + address);
-                NetworkUtils.getLocationFromAddress(address, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        requireActivity().runOnUiThread(() ->
-                                Toast.makeText(requireContext(), "请求失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
-                        );
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                            String json = response.body().string();
-                            parseJSONResponse(json);
-                        } else {
-                            requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(requireContext(), "请求失败，状态码：" + response.code(), Toast.LENGTH_SHORT).show()
-                            );
-                        }
-                    }
-                });
+                new WenXinTask().execute(address);
             } else {
                 Toast.makeText(requireContext(), "请输入地址", Toast.LENGTH_SHORT).show();
             }
@@ -92,40 +73,23 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    private void parseJSONResponse(String json) {
-        try {
-            // 处理JSONP格式响应
-            int start = json.indexOf("{");
-            int end = json.lastIndexOf("}");
-            if (start != -1 && end != -1) {
-                json = json.substring(start, end + 1);
-            }
+    private void showIntroductionDialog(String introduction) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_location_introduction, null);
+        builder.setView(view);
 
-            JSONObject jsonObject = new JSONObject(json);
-            int status = jsonObject.getInt("status");
-            if (status == 0) {
-                JSONObject result = jsonObject.getJSONObject("result");
-                JSONObject location = result.getJSONObject("location");
-                double lat = location.getDouble("lat");
-                double lng = location.getDouble("lng");
-                LatLng latLng = new LatLng(lat, lng);
-
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), "定位成功：" + latLng.toString(), Toast.LENGTH_SHORT).show();
-                    mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngZoom(latLng, 15.8f));
-                });
-            } else {
-                String message = jsonObject.getString("message");
-                requireActivity().runOnUiThread(() ->
-                        Toast.makeText(requireContext(), "请求失败：" + message, Toast.LENGTH_SHORT).show()
-                );
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            requireActivity().runOnUiThread(() ->
-                    Toast.makeText(requireContext(), "解析失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
-            );
+        TextView locationIntroductionText = view.findViewById(R.id.location_introduction_text);
+        if (introduction != null &&!introduction.isEmpty()) {
+            locationIntroductionText.setText(introduction);
+        } else {
+            locationIntroductionText.setText("无介绍内容");
         }
+
+        builder.setPositiveButton("确定", (dialog, which) -> dialog.dismiss());
+        builder.setTitle("简介");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void initLocation() {
@@ -182,6 +146,31 @@ public class DashboardFragment extends Fragment {
                     .longitude(location.getLongitude())
                     .build();
             mBaiduMap.setMyLocationData(locData);
+        }
+    }
+
+    private class WenXinTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String address = params[0];
+            WenXin wenXin = new WenXin();
+            try {
+                return wenXin.getLocationIntroduction(address);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                showIntroductionDialog(result);
+            } else {
+                Log.e("WenXin", "请求失败");
+                Toast.makeText(requireContext(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
