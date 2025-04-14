@@ -67,4 +67,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 //    implementation ("org.springframework:spring-web:5.3.28")
+
+    //implementation ("com.baidu.lbsyun:BaiduMapSDK_Map:7.6.4")
 }

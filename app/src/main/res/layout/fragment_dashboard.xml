@@ -30,6 +30,7 @@
             android:text="搜索"
             android:padding="12dp"
             android:layout_marginStart="16dp"/>
+
     </LinearLayout>
 
     <com.baidu.mapapi.map.MapView
@@ -39,4 +40,29 @@
         android:layout_weight="1"
         android:clickable="true"/>
 
+
+    <!-- 新增的路线规划按钮 -->
+    <!-- 底部右侧的按钮列布局 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:layout_margin="16dp">
+
+        <Button
+            android:id="@+id/route_planning_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="路线规划"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/other_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其他"
+            android:padding="12dp" />
+    </LinearLayout>
 </LinearLayout>
