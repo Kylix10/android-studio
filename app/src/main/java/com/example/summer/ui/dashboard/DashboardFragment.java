@@ -36,6 +36,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.example.summer.R;
 import com.example.summer.utils.NetworkUtils;
 import com.example.summer.utils.WenXin;
+import com.example.summer.DemoApplication;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -63,11 +64,15 @@ public class DashboardFragment extends Fragment {
     private LatLng startPoint;
     private LatLng endPoint;
 
-    private boolean flag1=false;
+    private boolean flag1=false;//用于判断路径规划是否有起点
+
+    private DemoApplication demoApplication; // 新增：持有应用实例
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        // 初始化应用实例（在视图创建时获取）
+        demoApplication = (DemoApplication) requireActivity().getApplication();
 
         mMapView = root.findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
@@ -84,6 +89,8 @@ public class DashboardFragment extends Fragment {
         searchButton.setOnClickListener(v -> {
             String address = addressSearchEditText.getText().toString().trim();
             if (!address.isEmpty()) {
+                // 新增：搜索前先更新搜索次数
+                demoApplication.increaseSearchTimes(address); // 直接通过应用实例调用
                 new WenXinTask().execute(address);
 
             } else {
@@ -138,6 +145,8 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 String startAddress = startEditText.getText().toString().trim();
                 if (!TextUtils.isEmpty(startAddress)) {
+                    // 新增：起点搜索时更新搜索次数
+                    demoApplication.increaseSearchTimes(startAddress);
                     NetworkUtils.getLocationFromAddress(startAddress, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -192,6 +201,9 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 String midAddress = midEditText.getText().toString().trim();
                 if (!TextUtils.isEmpty(midAddress)) {
+                    // 新增：途径点搜索时更新搜索次数
+                    demoApplication.increaseSearchTimes(midAddress);
+                    // 获取经纬度
                     NetworkUtils.getLocationFromAddress(midAddress, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -251,6 +263,9 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 String endAddress = endEditText.getText().toString().trim();
                 if (!TextUtils.isEmpty(endAddress)) {
+                    // 新增：终点搜索时更新搜索次数
+                    demoApplication.increaseSearchTimes(endAddress);
+                    // 获取经纬度
                     NetworkUtils.getLocationFromAddress(endAddress, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
