@@ -29,6 +29,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TicketPurchaseActivity"
+            android:label="避暑山庄购票"
+            android:theme="@style/Theme.Summer.NoActionBar"
+            android:parentActivityName=".MainActivity">
+            <!-- Parent activity meta-data for Android 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".CrowdStatsActivity"
+            android:label="景点人流量统计"
+            android:theme="@style/Theme.Summer.NoActionBar"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
     <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
     <uses-permission android:name="android.permission.INTERNET" />
