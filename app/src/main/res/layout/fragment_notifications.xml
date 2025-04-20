@@ -8,15 +8,21 @@
     tools:context=".ui.notifications.NotificationsFragment">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="433dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251">
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_avatar"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="16dp"/>
         <LinearLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
@@ -117,36 +123,139 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/teal_500" />
+    </LinearLayout>
+    <!--咨询-->
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebb10d"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"/>
 
-        <LinearLayout
-            android:id="@+id/help_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:padding="16dp">
+    <LinearLayout
+        android:id="@+id/consult_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/divider1">
 
-            <ImageView
-                android:id="@+id/help_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_help" />
+        <ImageView
+            android:id="@+id/consult_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_consult" />
 
-            <TextView
-                android:id="@+id/help_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="帮助中心"
-                android:textColor="@color/teal_700"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/consult_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在线咨询"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--个人-->
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebb10d"
+        app:layout_constraintTop_toBottomOf="@id/consult_layout"/>
 
+    <LinearLayout
+        android:id="@+id/personal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider2">
+
+        <ImageView
+            android:id="@+id/personal_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_personal" />
+
+        <TextView
+            android:id="@+id/personal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人信息"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--我的日记-->
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebb10d"
+        app:layout_constraintTop_toBottomOf="@id/personal_layout"/>
+
+    <LinearLayout
+        android:id="@+id/diary_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider4"
+        app:layout_constraintBottom_toTopOf="@id/divider5">
+
+        <ImageView
+            android:id="@+id/diary_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_diary"/>
+
+        <TextView
+            android:id="@+id/diary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的日记"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--帮助中心-->
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebb10d"
+        app:layout_constraintTop_toBottomOf="@id/diary_layout"
+        app:layout_constraintBottom_toTopOf="@id/help_layout" />
+
+    <LinearLayout
+        android:id="@+id/help_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider5">
+
+        <ImageView
+            android:id="@+id/help_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_help" />
+
+        <TextView
+            android:id="@+id/help_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="帮助中心"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
