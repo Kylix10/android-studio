@@ -1,25 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/nav_home"> <!-- 首页为默认的起始页面 -->
 
+    <!-- 首页 -->
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/nav_home"
         android:name="com.example.summer.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="首页">
+        <!-- 从首页到游园须知详情页的动作 -->
+        <action
+            android:id="@+id/action_home_to_gardenGuide"
+            app:destination="@id/nav_gardenGuide" />
+        <!-- 从首页到景区概览页的动作 -->
+        <action
+            android:id="@+id/action_home_to_parkOverview"
+            app:destination="@id/nav_parkOverview" />
+        <!-- 从首页到游客应知页的动作 -->
+        <action
+            android:id="@+id/action_home_to_touristInfo"
+            app:destination="@id/nav_touristInfo" />
+        <!-- 从首页到景点推荐页的动作 -->
+        <action
+            android:id="@+id/action_home_to_spotRecommendation"
+            app:destination="@id/nav_spotRecommendation" />
+    </fragment>
 
+    <!-- 游园须知详情页Fragment -->
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/nav_gardenGuide"
+        android:name="com.example.summer.ui.home.GardenGuideFragment"
+        android:label="游园须知详情" />
+
+    <!-- 景区概览详情页Fragment -->
+    <fragment
+        android:id="@+id/nav_parkOverview"
+        android:name="com.example.summer.ui.home.ParkOverviewFragment"
+        android:label="景区概览" />
+
+    <!-- 游客应知详情页Fragment -->
+    <fragment
+        android:id="@+id/nav_touristInfo"
+        android:name="com.example.summer.ui.home.TouristInfoFragment"
+        android:label="游客应知" />
+
+    <!-- 景点推荐页Fragment -->
+    <fragment
+        android:id="@+id/nav_spotRecommendation"
+        android:name="com.example.summer.ui.home.SpotRecommendationFragment"
+        android:label="景点推荐" />
+
+    <!-- 地图页 -->
+    <fragment
+        android:id="@+id/nav_map"
         android:name="com.example.summer.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="地图" />
 
+    <!-- 个人主页 -->
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/nav_profile"
         android:name="com.example.summer.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:label="我的" />
 </navigation>

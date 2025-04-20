@@ -19,3 +19,34 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# 保留Fragment相关类
+-keep class androidx.fragment.app.Fragment { *; }
+-keep class androidx.fragment.app.FragmentManager { *; }
+
+# 优化导航控制器
+-keep class androidx.navigation.** { *; }
+
+# 优化视图绑定
+-keep class * extends androidx.viewbinding.ViewBinding {
+    public static *** inflate(...);
+    public static *** bind(android.view.View);
+}
+
+# 防止反射相关的类被优化掉
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @androidx.annotation.Keep *;
+}
+
+# 优化对ViewPager2和RecyclerView的处理
+-keep class androidx.viewpager2.** { *; }
+-keep class androidx.recyclerview.widget.RecyclerView { *; }
+
+# 避免优化掉底部导航栏
+-keep class com.google.android.material.bottomnavigation.** { *; }
+
+# 全局性能优化
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
