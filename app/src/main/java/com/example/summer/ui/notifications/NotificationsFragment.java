@@ -1,5 +1,6 @@
 package com.example.summer.ui.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,11 @@ public class NotificationsFragment extends Fragment {
         binding.consultLayout.setOnClickListener(v -> showToast("在线咨询"));
         binding.personalLayout.setOnClickListener(v -> showToast("个人信息"));
         binding.helpLayout.setOnClickListener(v -> showToast("帮助中心"));
+        // 添加我的日记点击事件
+        binding.diaryLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), DiaryActivity.class);
+            startActivity(intent);
+        });
 
         return root;
     }
