@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -44,6 +45,15 @@
             android:label="景点人流量统计"
             android:theme="@style/Theme.Summer.NoActionBar"
             android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+      <!-- 新增 DiaryActivity 的注册代码 -->
+        <activity
+            android:name=".ui.notifications.DiaryActivity"
+            android:label="我的日记"
+            android:parentActivityName=".ui.notifications.NotificationsFragment">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
