@@ -1,0 +1,29 @@
+package com.example.summer.ui.home;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import com.example.summer.R;
+
+public class GardenGuideFragment extends Fragment {
+    private View rootView;
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // 加载对应布局，例如 fragment_garden_guide.xml
+        rootView = inflater.inflate(R.layout.fragment_garden_guide, container, false);
+        return rootView;
+    }
+    
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+}

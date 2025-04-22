@@ -12,12 +12,25 @@
         android:hint="请输入终点地址"
         android:inputType="text" />
 
-    <Button
-        android:id="@+id/confirm_endpoint_final_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="确定"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/confirm_endpoint_final_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定" />
+
+        <Button
+            android:id="@+id/confirm_noendpoint_final_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="无终点" />
+
+    </LinearLayout>
 
 </LinearLayout>

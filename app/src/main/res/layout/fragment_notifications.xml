@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     tools:context=".ui.notifications.NotificationsFragment">
+
 
     <LinearLayout
         android:id="@+id/header_layout"
@@ -52,7 +54,7 @@
         android:id="@+id/divider1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ebb10d"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/header_layout"/>
 
     <LinearLayout
@@ -85,7 +87,7 @@
         android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ebb10d"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/consult_layout"/>
 
     <LinearLayout
@@ -118,7 +120,7 @@
         android:id="@+id/divider4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ebb10d"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/personal_layout"/>
 
     <LinearLayout
@@ -136,7 +138,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_diary"
-        />
+            />
 
         <TextView
             android:id="@+id/diary_text"
@@ -153,7 +155,7 @@
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ebb10d"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/diary_layout"
         app:layout_constraintBottom_toTopOf="@id/help_layout" />
 
@@ -184,3 +186,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
