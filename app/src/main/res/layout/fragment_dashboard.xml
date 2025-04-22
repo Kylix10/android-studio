@@ -40,29 +40,47 @@
         android:layout_weight="1"
         android:clickable="true"/>
 
-
-    <!-- 新增的路线规划按钮 -->
-    <!-- 底部右侧的按钮列布局 -->
+    <!-- 新增的外层垂直LinearLayout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="end"
-        android:layout_margin="16dp">
+        android:layout_marginBottom="50dp">
 
-        <Button
-            android:id="@+id/route_planning_button"
-            android:layout_width="wrap_content"
+        <!-- 原来的水平LinearLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="路线规划"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp" />
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_margin="16dp">
 
-        <Button
-            android:id="@+id/other_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="其他"
-            android:padding="12dp" />
+            <Button
+                android:id="@+id/clearMarkersButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清空标记"
+                android:padding="12dp"
+                android:layout_marginEnd="5dp" />
+            <Button
+                android:id="@+id/facility_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设施查找"
+                android:padding="12dp"
+                android:layout_marginEnd="5dp" />
+
+            <Button
+                android:id="@+id/route_planning_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="路线规划"
+                android:padding="12dp"
+                android:layout_marginEnd="5dp" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
+

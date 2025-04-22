@@ -279,6 +279,8 @@ public class SpotData {
         return null;
     }
 
+
+
     // 输入一个地点的名称，将该地点对应的searchtimes加1，若为类别，则将该分类下所有地点的searchtimes加1
     public void increaseSearchTimes(String locationName) {
         TreeNode node = findNode(root, locationName);
@@ -297,6 +299,27 @@ public class SpotData {
         } else {
             for (TreeNode child : node.children) {
                 increaseSearchTimesRecursive(child);
+            }
+        }
+    }
+
+
+    // 新添加的方法，接受节点名，将指定节点下的所有叶节点的name属性存入字符串数组并返回
+    public List<String> getAllLeafNodeNames(String nodeName) {
+        List<String> result = new ArrayList<>();
+        TreeNode targetNode = findNode(root, nodeName);
+        if (targetNode != null) {
+            getAllLeafNodeNamesRecursive(targetNode, result);
+        }
+        return result;
+    }
+
+    private void getAllLeafNodeNamesRecursive(TreeNode node, List<String> result) {
+        if (node.children.isEmpty()) {
+            result.add("承德避暑山庄"+node.name);
+        } else {
+            for (TreeNode child : node.children) {
+                getAllLeafNodeNamesRecursive(child, result);
             }
         }
     }
