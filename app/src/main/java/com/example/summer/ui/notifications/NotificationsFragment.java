@@ -33,7 +33,7 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         // 只有在首次创建视图时才初始化ViewModel和设置点击事件
         if (!isViewInitialized) {
             initViewModel();
@@ -41,13 +41,13 @@ public class NotificationsFragment extends Fragment {
             isViewInitialized = true;
         }
     }
-    
+
     private void initViewModel() {
         NotificationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
         // 这里可以添加ViewModel的数据观察
     }
-    
+
     private void setupClickListeners() {
         // 设置点击事件
         binding.consultLayout.setOnClickListener(v -> showToast("在线咨询"));
@@ -60,7 +60,7 @@ public class NotificationsFragment extends Fragment {
             startActivity(intent);
         });
 
-        return root;
+//        return root;
 
     }
 
@@ -75,7 +75,7 @@ public class NotificationsFragment extends Fragment {
         super.onDestroyView();
         // 不重置binding，保持视图缓存
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
