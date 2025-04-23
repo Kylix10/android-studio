@@ -12,11 +12,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <!-- 直接设置背景色为绿色 -->
+        <item name="android:windowBackground">@color/white</item>
     </style>
     
     <!-- 无ActionBar主题，用于TicketPurchaseActivity -->
     <style name="Theme.Summer.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
+
 </resources>

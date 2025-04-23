@@ -1,5 +1,6 @@
 package com.example.summer.ui.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         // 只有在首次创建视图时才初始化ViewModel和设置点击事件
         if (!isViewInitialized) {
             initViewModel();
@@ -40,18 +41,27 @@ public class NotificationsFragment extends Fragment {
             isViewInitialized = true;
         }
     }
-    
+
     private void initViewModel() {
         NotificationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
         // 这里可以添加ViewModel的数据观察
     }
-    
+
     private void setupClickListeners() {
         // 设置点击事件
         binding.consultLayout.setOnClickListener(v -> showToast("在线咨询"));
         binding.personalLayout.setOnClickListener(v -> showToast("个人信息"));
         binding.helpLayout.setOnClickListener(v -> showToast("帮助中心"));
+
+        // 添加我的日记点击事件
+        binding.diaryLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), DiaryActivity.class);
+            startActivity(intent);
+        });
+
+//        return root;
+
     }
 
     private void showToast(String message) {
@@ -65,7 +75,7 @@ public class NotificationsFragment extends Fragment {
         super.onDestroyView();
         // 不重置binding，保持视图缓存
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
