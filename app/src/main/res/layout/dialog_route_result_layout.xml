@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/round_corner_background">
+    <TextView
+        android:id="@+id/service_label_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="路线规划"
+        android:textSize="22sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/service_phone_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请确定打算途经的地点"
+        android:textSize="18sp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"/>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,17 +39,18 @@
 
     <Button
         android:id="@+id/ok_button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="确定"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
     <Button
         android:id="@+id/clean_button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="清空规划"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 
+</LinearLayout>
 </LinearLayout>
