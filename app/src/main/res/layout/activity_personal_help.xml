@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/service_label_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="服务电话:400-0314-999"
+        android:textSize="18sp"
+        android:gravity="start"
+        android:paddingTop="16dp"
+        android:textColor="#000000"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/service_help_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n医疗救助点：宫殿区东侧游客中心内\n\n警务服务站：丽正门入口右侧\n\n景区内设有免费饮水点（湖区、宫殿区）、母婴室及无障碍通道。"
+        android:textSize="18sp"
+        android:gravity="start"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/confirm_service_help_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定" />
+    </LinearLayout>
+
+</LinearLayout>

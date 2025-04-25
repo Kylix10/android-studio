@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:text="张三"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/status_text"

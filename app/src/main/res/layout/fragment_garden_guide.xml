@@ -191,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="环保倡议：\n请将废弃物投放到指定垃圾桶（可回收/不可回收/有害垃圾）。\n\n服务信息：\n· 景区服务热线：0314-12345678\n· 医疗救助点：宫殿区东侧游客中心内\n· 警务服务站：丽正门入口右侧\n\n景区内设有免费饮水点（湖区、宫殿区）、母婴室及无障碍通道。\n\n建议携带身份证、充电宝、防晒霜及适量饮水，轻装出行。"
+                    android:text="环保倡议：\n请将废弃物投放到指定垃圾桶（可回收/不可回收/有害垃圾）。\n\n服务信息：\n· 景区服务热线：400-0314-999\n· 医疗救助点：宫殿区东侧游客中心内\n· 警务服务站：丽正门入口右侧\n\n景区内设有免费饮水点（湖区、宫殿区）、母婴室及无障碍通道。\n\n建议携带身份证、充电宝、防晒霜及适量饮水，轻装出行。"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>

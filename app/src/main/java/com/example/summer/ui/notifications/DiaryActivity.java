@@ -1,5 +1,6 @@
 package com.example.summer.ui.notifications;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.summer.R;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,18 +27,27 @@ import java.util.Locale;
 public class DiaryActivity extends AppCompatActivity {
     private LinearLayout diaryContainer;
     private Button floatNoteBtn;
-    private List<Diary> diaryList = new ArrayList<>(); // 模拟数据存储
+    private List<Diary> diaryList = new ArrayList<>();
+    private static final String SHARED_PREFS_NAME = "diary_prefs";
+    private static final String DIARY_LIST_KEY = "diary_list";
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
+        // 启用顶部返回按钮
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 显示返回按钮
+            getSupportActionBar().setTitle("我的日记"); // 设置标题
+        }
 
         diaryContainer = findViewById(R.id.diary_content_container);
         floatNoteBtn = findViewById(R.id.float_note_btn);
+        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
 
-        // 初始化数据（模拟从本地/网络获取）
-        initData();
+        // 从 SharedPreferences 加载日记数据
+        loadDiaryDataFromSharedPrefs();
 
         // 加载日记内容
         loadDiaryContent();
@@ -43,12 +56,36 @@ public class DiaryActivity extends AppCompatActivity {
         floatNoteBtn.setOnClickListener(v -> showNoteDialog());
     }
 
-    private void initData() {
-        // 模拟已有日记数据
-        diaryList.add(new Diary("2025-04-20", "今天天气晴朗，参观了承德避暑山庄..."));
-        diaryList.add(new Diary("2025-04-19", "昨天学习了Android开发知识..."));
+    @Override
+    public boolean onSupportNavigateUp() {
+        // 保存日记数据到 SharedPreferences
+        saveDiaryDataToSharedPrefs();
+        finish();
+        return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 保存日记数据到 SharedPreferences
+        saveDiaryDataToSharedPrefs();
+    }
+
+    private void loadDiaryDataFromSharedPrefs() {
+        String diaryListJson = sharedPreferences.getString(DIARY_LIST_KEY, null);
+        if (diaryListJson != null) {
+            Gson gson = new Gson();
+            diaryList = gson.fromJson(diaryListJson, new TypeToken<List<Diary>>() {}.getType());
+        }
+    }
+
+    private void saveDiaryDataToSharedPrefs() {
+        Gson gson = new Gson();
+        String diaryListJson = gson.toJson(diaryList);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DIARY_LIST_KEY, diaryListJson);
+        editor.apply();
+    }
     private void loadDiaryContent() {
         diaryContainer.removeAllViews();
         if (!diaryList.isEmpty()) {
@@ -84,6 +121,8 @@ public class DiaryActivity extends AppCompatActivity {
                 String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 diaryList.add(new Diary(currentDate, content));
                 loadDiaryContent(); // 刷新日记展示
+                // 保存日记数据到 SharedPreferences
+                saveDiaryDataToSharedPrefs();
                 dialog.dismiss();
             } else {
                 Toast.makeText(this, "日记内容不能为空", Toast.LENGTH_SHORT).show();
@@ -104,7 +143,12 @@ public class DiaryActivity extends AppCompatActivity {
             this.content = content;
         }
 
-        public String getDate() { return date; }
-        public String getContent() { return content; }
+        public String getDate() {
+            return date;
+        }
+
+        public String getContent() {
+            return content;
+        }
     }
 }
