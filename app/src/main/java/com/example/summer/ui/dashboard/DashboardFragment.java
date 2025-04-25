@@ -82,6 +82,7 @@ public class DashboardFragment extends Fragment {
     private List<String> midPointAddresses = new ArrayList<>();
 
     private boolean flag1=false;//用于判断路径规划是否有起点
+    private boolean flag2=false;//判断是否选择无终点
 
     private DemoApplication demoApplication; // 新增：持有应用实例
 
@@ -146,15 +147,20 @@ public class DashboardFragment extends Fragment {
 
             if (startPoint == null) {
                 // 当 startPoint 为空时执行的代码块
-                // 例如，可以在这里进行相应的提示或处理逻辑
                 Toast.makeText(requireContext(), "确定起点", Toast.LENGTH_SHORT).show();
                 showStartPointDialog();
-            } else if (flag1&&endPoint==null){
+            } else if (flag1&&endPoint==null&&flag2){
                 Toast.makeText(requireContext(), "确定终点", Toast.LENGTH_SHORT).show();
                 showEndPointDialog();
-            }else {
+            }else if(flag1&&flag2&&endPoint!=null){
                 Toast.makeText(requireContext(), "路线规划显示", Toast.LENGTH_SHORT).show();
                 showRoutePlanningResultDialog();
+            }else if(flag1&&endPoint==null&&flag2==false){
+                Toast.makeText(requireContext(), "路线规划显示", Toast.LENGTH_SHORT).show();
+                showRoutePlanningResultDialog();
+            }else{
+                Toast.makeText(requireContext(), "确定途经点", Toast.LENGTH_SHORT).show();
+                showMidPointDialog();
             }
 
         });
@@ -182,12 +188,6 @@ public class DashboardFragment extends Fragment {
                 String fullAddress = "承德避暑山庄" + input;
 
                 if (!TextUtils.isEmpty(fullAddress )) {
-                    // 限制地址范围，仅允许承德避暑山庄内地点
-                    if (!fullAddress .contains("承德") || !fullAddress .contains("避暑山庄")) {
-                        Toast.makeText(requireContext(), "请输入承德避暑山庄内的地点", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
                     startAddress = input; // 保存地址
                     // 新增：起点搜索时更新搜索次数
                     demoApplication.increaseSearchTimes(fullAddress );
@@ -255,11 +255,6 @@ public class DashboardFragment extends Fragment {
                 }
                 String fullAddress3 = "承德避暑山庄" + midAddress;
                 if (!TextUtils.isEmpty(fullAddress3)) {
-                    // 限制地址范围，仅允许承德避暑山庄内地点
-                    if (!fullAddress3.contains("承德") || !fullAddress3.contains("避暑山庄")) {
-                        Toast.makeText(requireContext(), "请输入承德避暑山庄内的地点", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     demoApplication.increaseSearchTimes(fullAddress3);
                     NetworkUtils.getLocationFromAddress(fullAddress3, new Callback() {
                         @Override
@@ -305,11 +300,6 @@ public class DashboardFragment extends Fragment {
                 }
                 String fullAddress4 = "承德避暑山庄" + midAddress;
                 if (!TextUtils.isEmpty(fullAddress4)) {
-                    // 限制地址范围，仅允许承德避暑山庄内地点
-                    if (!fullAddress4.contains("承德") || !fullAddress4.contains("避暑山庄")) {
-                        Toast.makeText(requireContext(), "请输入承德避暑山庄内的地点", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     demoApplication.increaseSearchTimes(fullAddress4);
                     NetworkUtils.getLocationFromAddress(fullAddress4, new Callback() {
                         @Override
@@ -358,20 +348,18 @@ public class DashboardFragment extends Fragment {
         builder.setView(view);
         builder.setTitle("确定终点");
         builder.setMessage("请输入终点地址");
-
+        flag1=true;
+        flag2=true;//有终点
         AlertDialog dialog = builder.create();
 
+        //有终点
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String input2 = endEditText.getText().toString().trim();
                 String fullAddress2 = "承德避暑山庄" + input2;
+
                 if (!TextUtils.isEmpty(fullAddress2)) {
-                    // 限制地址范围，仅允许承德避暑山庄内地点
-                    if (!fullAddress2.contains("承德") || !fullAddress2.contains("避暑山庄")) {
-                        Toast.makeText(requireContext(), "请输入承德避暑山庄内的地点", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     endAddress = input2; // 保存地址
                     // 新增：终点搜索时更新搜索次数
                     demoApplication.increaseSearchTimes(fullAddress2);
@@ -412,6 +400,7 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 endPoint = null;
                 endAddress = null;
+                flag2=false;
                 // 直接展示路径结果
                 showRoutePlanningResultDialog();
                 dialog.dismiss();
@@ -501,6 +490,7 @@ public class DashboardFragment extends Fragment {
                 midPointAddresses.clear();
                 mBaiduMap.clear();
                 flag1 = false;
+                flag2=false;
                 mMapView.setVisibility(View.GONE);
                 mMapView.setVisibility(View.VISIBLE);
                 dialog.dismiss();
