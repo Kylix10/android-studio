@@ -72,6 +72,7 @@ public class NotificationsFragment extends Fragment {
 
             // 设置点击事件
             confirmButton.setOnClickListener(btn -> dialog.dismiss());
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 关键：透明背景
 
             dialog.show();
         });//在线咨询
@@ -94,6 +95,7 @@ public class NotificationsFragment extends Fragment {
 
             // 设置点击事件
             confirmButton.setOnClickListener(btn -> dialog.dismiss());
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 关键：透明背景
 
             dialog.show();
         });//帮助中心
