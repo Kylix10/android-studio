@@ -51,10 +51,9 @@
     <!-- 移除取消按钮，仅保留完成按钮 -->
     <Button
         android:id="@+id/save_btn"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="完成"
-        android:background="@color/primary"
         android:textColor="@color/white"/>
 </LinearLayout>
     </LinearLayout>
