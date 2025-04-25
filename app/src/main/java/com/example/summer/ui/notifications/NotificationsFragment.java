@@ -1,6 +1,7 @@
 package com.example.summer.ui.notifications;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.summer.R;
 import com.example.summer.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
@@ -30,6 +32,12 @@ public class NotificationsFragment extends Fragment {
         return rootView;
     }
 
+    private void updateUsername() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("user_info", getContext().MODE_PRIVATE);
+        String name = prefs.getString("name", "张三"); // 默认为“张三”
+        binding.usernameText.setText(name);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -37,6 +45,7 @@ public class NotificationsFragment extends Fragment {
         // 只有在首次创建视图时才初始化ViewModel和设置点击事件
         if (!isViewInitialized) {
             initViewModel();
+            updateUsername();
             setupClickListeners();
             isViewInitialized = true;
         }
@@ -50,9 +59,44 @@ public class NotificationsFragment extends Fragment {
 
     private void setupClickListeners() {
         // 设置点击事件
-        binding.consultLayout.setOnClickListener(v -> showToast("在线咨询"));
-        binding.personalLayout.setOnClickListener(v -> showToast("个人信息"));
-        binding.helpLayout.setOnClickListener(v -> showToast("帮助中心"));
+        binding.consultLayout.setOnClickListener(v -> {
+            // 加载自定义布局
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.activity_personal_phone, null);
+            // 获取控件
+            View confirmButton = dialogView.findViewById(R.id.confirm_service_phone_button);
+
+            // 创建 Dialog
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(requireContext())
+                    .setView(dialogView)
+                    .create();
+
+            // 设置点击事件
+            confirmButton.setOnClickListener(btn -> dialog.dismiss());
+
+            dialog.show();
+        });//在线咨询
+
+        binding.personalLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), PersonalInfoActivity.class);
+            startActivity(intent);
+        });
+
+        binding.helpLayout.setOnClickListener(v -> {
+            // 加载自定义布局
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.activity_personal_help, null);
+            // 获取控件
+            View confirmButton = dialogView.findViewById(R.id.confirm_service_help_button);
+
+            // 创建 Dialog
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(requireContext())
+                    .setView(dialogView)
+                    .create();
+
+            // 设置点击事件
+            confirmButton.setOnClickListener(btn -> dialog.dismiss());
+
+            dialog.show();
+        });//帮助中心
 
         // 添加我的日记点击事件
         binding.diaryLayout.setOnClickListener(v -> {
@@ -84,4 +128,11 @@ public class NotificationsFragment extends Fragment {
         rootView = null;
         isViewInitialized = false;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUsername(); // 返回后实时刷新用户名
+    }
 }
+
