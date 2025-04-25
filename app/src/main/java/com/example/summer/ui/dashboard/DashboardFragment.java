@@ -168,12 +168,11 @@ public class DashboardFragment extends Fragment {
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
         EditText startEditText = view.findViewById(R.id.start_edit_text);
         Button confirmButton = view.findViewById(R.id.confirm_start_button);
-
         builder.setView(view);
-        builder.setTitle("路线规划");
-        builder.setMessage("请确定起点");
 
         AlertDialog dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 透明背景
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,10 +237,9 @@ public class DashboardFragment extends Fragment {
         Button confirmEndButton = view.findViewById(R.id.confirm_endpoint_button);
 
         builder.setView(view);
-        builder.setTitle("路线规划");
-        builder.setMessage("请确定打算途径的地点");
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 透明背景
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,10 +354,9 @@ public class DashboardFragment extends Fragment {
         Button confirmButton = view.findViewById(R.id.confirm_endpoint_final_button);
         Button noEndButton = view.findViewById(R.id.confirm_noendpoint_final_button);
         builder.setView(view);
-        builder.setTitle("确定终点");
-        builder.setMessage("请输入终点地址");
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 透明背景
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,9 +485,9 @@ public class DashboardFragment extends Fragment {
 
             resultTextView.setText(routeInfo.toString());
             builder.setView(view);
-            builder.setTitle("最短路径结果");
 
             AlertDialog dialog = builder.create();
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 透明背景
             okButton.setOnClickListener(v -> dialog.dismiss());
             cleanButton.setOnClickListener(v -> {
                 startPoint = null;
