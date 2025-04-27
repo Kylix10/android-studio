@@ -99,7 +99,7 @@
                         android:layout_marginBottom="8dp"
                         android:contentDescription="@null"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_money"
+                        android:src="@drawable/ic_group"
                         app:tint="#CCA663"/>
 
                     <Button
@@ -205,7 +205,7 @@
                         android:layout_marginBottom="8dp"
                         android:contentDescription="@null"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_group"
+                        android:src="@drawable/ic_money"
                         app:tint="#CCA663"/>
 
                     <Button

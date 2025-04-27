@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dark_gray">#FF333333</color>
-    <color name="orange">#FFFF6600</color>
+    <color name="orange">#EE8B46</color>
     <color name="button_primary">#2196F3</color>
     <color name="button_secondary">#E0E0E0</color>
     <color name="indicator_selected_color">#FF5722</color>
@@ -11,8 +11,8 @@
     <color name="purple_200">#f8df70</color>
     <color name="purple_500">#45b787</color>
     <color name="purple_700">#20a162</color>
-    <color name="teal_200">#000000</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="teal_200">#4CAF50</color>
+    <color name="teal_700">#7CC18C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#FF4081</color>
