@@ -2,10 +2,24 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
+
       <SelectionState runConfigName="summer">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="app">
+
+      <SelectionState runConfigName="app">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-04-25T18:44:48.354642600Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=46FDU19415001384" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="summer">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -108,6 +108,7 @@ public class DiaryActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 关键：透明背景
         dialog.show();
 
         // 关闭按钮（×）点击事件（保持不变：直接关闭弹窗，不保存）

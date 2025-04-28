@@ -21,4 +21,5 @@
     <color name="yellow">#4BBCD9CD</color>
     <color name="text">#1B784B</color>
     <color name="line">#8dc0b3</color>
+    <color name="nocolor">#00FFFFFF</color>
 </resources>

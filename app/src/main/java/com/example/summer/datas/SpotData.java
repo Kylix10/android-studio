@@ -12,17 +12,25 @@ import java.util.Locale;
 // 定义树节点类
 class TreeNode {
     String name;
-    int searchTimes;       // 用户搜索次数
-    int currentCrowd;     // 当前人流量（实时模拟值）
-    int lastCrowd;        // 上一次更新的人流量
+    int searchTimes;
+    int currentCrowd;
+    int lastCrowd;
     List<TreeNode> children;
+    boolean isToilet; // **新增：是否为公共厕所标签**
 
-    public TreeNode(String name) {
+    // 带标签的构造方法
+    public TreeNode(String name, boolean isToilet) {
         this.name = name;
-        this.searchTimes=0;
+        this.isToilet = isToilet; // 初始化标签
+        this.searchTimes = 0;
         this.currentCrowd = 0;
         this.lastCrowd = 0;
         this.children = new ArrayList<>();
+    }
+
+    // 无标签的构造方法（普通节点默认isToilet=false）
+    public TreeNode(String name) {
+        this(name, false); // 调用带标签的构造方法
     }
 
     public void addChild(TreeNode child) {
@@ -34,6 +42,10 @@ class CrowdSimulator {
     private static final int MAX_CHANGE = 200;       // 单次最大人流量变化
     private static final double ALPHA = 0.7;         // 平滑系数
     private static final Map<String, Integer> TIME_PERIOD_WEIGHT = new HashMap<>();
+    // **公共厕所人流量限制**
+    private static final int TOILET_MIN_CROWD = 5;
+    private static final int TOILET_MAX_CROWD = 25;
+
 
     static {
         // 预设时间段基础人流量（高峰时段权重高，低谷权重低）
@@ -59,7 +71,13 @@ class CrowdSimulator {
         node.lastCrowd = node.currentCrowd;
 
         // 限制人流量在合理范围（如0-2000）
-        node.currentCrowd = Math.max(0, Math.min(2000, node.currentCrowd));
+        // **通过标签判断是否为公共厕所**
+        if (node.isToilet) { // 灵活判断，不依赖名称
+            node.currentCrowd = Math.max(TOILET_MIN_CROWD, Math.min(TOILET_MAX_CROWD, node.currentCrowd));
+        } else {
+            // 其他节点保持原范围
+            node.currentCrowd = Math.max(2, Math.min(2000, node.currentCrowd));
+        }
     }
 
     private String getCurrentTime() {
@@ -155,11 +173,12 @@ public class SpotData {
         TreeNode scenicFacilities = new TreeNode("景区设施");
 
         // 在景区厕所下添加公共厕所1、2、3、4四个子节点
-        TreeNode publicToilets = new TreeNode("景区厕所");
-        publicToilets.addChild(new TreeNode("公共厕所1"));
-        publicToilets.addChild(new TreeNode("公共厕所2"));
-        publicToilets.addChild(new TreeNode("公共厕所3"));
-        publicToilets.addChild(new TreeNode("公共厕所4"));
+        TreeNode publicToilets = new TreeNode("景区厕所"); // 父节点无需标记
+        // 子节点均标记为公共厕所
+        publicToilets.addChild(new TreeNode("公共厕所1", true));
+        publicToilets.addChild(new TreeNode("公共厕所2", true));
+        publicToilets.addChild(new TreeNode("公共厕所3", true));
+        publicToilets.addChild(new TreeNode("公共厕所4", true));
         scenicFacilities.addChild(publicToilets);
 
         // 在停车场下添加地下停车场、地上停车场两个子节点
