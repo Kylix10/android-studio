@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"> <!-- 使用oval形状实现圆形 -->
+
+    <!-- 边框颜色和宽度 -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/white" /> <!-- 示例颜色为白色，可替换为所需颜色 -->
+
+    <!-- 背景颜色（可选，若头像本身有背景需设置） -->
+    <solid android:color="@color/nocolor" /> <!-- 透明背景，不遮挡头像 -->
+</shape>

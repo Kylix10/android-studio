@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // 绑定布局
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

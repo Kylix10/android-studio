@@ -8,29 +8,30 @@
     android:background="@color/yellow"
     tools:context=".ui.notifications.NotificationsFragment">
 
-
     <LinearLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center_vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/avatar_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@drawable/ic_avatar"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_avatar_background"/>
+
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/username_text"
@@ -40,21 +41,37 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
+            <View
+                android:id="@+id/spacer_view1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/divider1"
+                app:layout_constraintBottom_toTopOf="@id/consult_layout"/>
 
             <TextView
                 android:id="@+id/status_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="当前位置：承德避暑山庄"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@color/gray"/>
+
+            <View
+                android:id="@+id/spacer_view2"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/divider1"
+                app:layout_constraintBottom_toTopOf="@id/consult_layout"/>
         </LinearLayout>
     </LinearLayout>
+
     <!--咨询-->
     <View
         android:id="@+id/divider1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/header_layout"/>
 
@@ -196,4 +213,3 @@
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="27dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
