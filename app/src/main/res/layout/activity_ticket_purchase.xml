@@ -16,16 +16,17 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/teal_700"
+            android:background="@color/indicator_selected_color"
             android:elevation="4dp"
-            app:title="避暑山庄票务"
-            app:titleTextColor="@color/white" />
+            app:title="购票入口"
+            app:titleTextColor="@color/white"
+            app:navigationIconTint="@color/white"/>
 
         <!-- 景区信息头部 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_200"
+            android:background="@color/teal_500"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -95,8 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            app:tabIndicatorColor="@color/teal_700"
-            app:tabSelectedTextColor="@color/teal_700"
+            app:tabIndicatorColor="@color/purple_500"
+            app:tabSelectedTextColor="@color/purple_700"
             app:tabTextColor="@color/black">
 
             <com.google.android.material.tabs.TabItem
@@ -252,7 +253,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/teal_700"
+                        android:background="@color/line"
                         android:orientation="horizontal"
                         android:padding="12dp">
 
@@ -353,7 +354,7 @@
                                 android:id="@+id/btnIncrease1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/teal_700"
+                                android:background="@color/purple_500"
                                 android:contentDescription="增加"
                                 android:src="@android:drawable/ic_menu_add" />
                         </LinearLayout>
@@ -420,7 +421,7 @@
                                 android:id="@+id/btnIncrease2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/teal_700"
+                                android:background="@color/purple_500"
                                 android:contentDescription="增加"
                                 android:src="@android:drawable/ic_menu_add" />
                         </LinearLayout>
@@ -486,7 +487,7 @@
                                 android:id="@+id/btnIncrease3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/teal_700"
+                                android:background="@color/purple_500"
                                 android:contentDescription="增加"
                                 android:src="@android:drawable/ic_menu_add" />
                         </LinearLayout>

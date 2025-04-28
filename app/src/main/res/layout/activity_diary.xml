@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/yellow">
 
+
     <!-- 日记内容容器（动态添加日记条目） -->
     <LinearLayout
         android:id="@+id/diary_content_container"

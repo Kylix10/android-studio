@@ -1,6 +1,8 @@
 package com.example.summer;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         // 设置 ActionBar 和 NavController 关联（用于返回箭头处理等）
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        //
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!= null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.indicator_selected_color)));
+        }
 
         // 绑定 BottomNavigationView 与 NavController
         NavigationUI.setupWithNavController(navView, navController);

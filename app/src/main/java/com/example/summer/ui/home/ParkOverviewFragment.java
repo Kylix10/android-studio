@@ -31,7 +31,7 @@ public class ParkOverviewFragment extends Fragment {
     
     private void initializeViews() {
         // 设置标题
-        TextView titleTextView = rootView.findViewById(R.id.tvTitle);
+        //TextView titleTextView = rootView.findViewById(R.id.tvTitle);
         
         // 这里可以添加更多初始化逻辑，比如动态加载内容或设置动画效果
     }

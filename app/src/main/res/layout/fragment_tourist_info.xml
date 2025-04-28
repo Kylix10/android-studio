@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FBF6E5"
+            android:background="@color/yellow"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -39,7 +39,7 @@
             android:layout_margin="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FBF6E5">
+            app:cardBackgroundColor="@color/yellow">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FBF6E5">
+            app:cardBackgroundColor="@color/yellow">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,7 +235,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FBF6E5">
+            app:cardBackgroundColor="@color/yellow">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -338,7 +338,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FBF6E5">
+            app:cardBackgroundColor="@color/yellow">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -399,7 +399,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FBF6E5">
+            app:cardBackgroundColor="@color/yellow">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -426,11 +426,26 @@
                         android:text="景区有无停车场？"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_answer"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="回答图标" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="丽正门广场停车场（500车位）、城关门停车场（200车位），7:00-19:00开放"
+                        android:text="避暑山庄地下停车场：位于河北省承德市双桥区山庄东路明珠大酒店西北100米。\n金龙购物广场停车场：位于河北省承德市双桥区金龙购物广场。 \n承德绮望楼宾馆停车场：位于碧峰门东路北1号承德绮望楼宾馆。 \n其他停车场：如位于河北省承德市双桥区山庄东路1号、马市街4号附近、西大街街道碧峰门大街小溪沟小区西北等地的停车场。 \n温馨提示：游客可根据自身需求选择合适的停车场，并注意停车场的开放时间和收费标准。"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -439,4 +454,4 @@
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+</ScrollView>

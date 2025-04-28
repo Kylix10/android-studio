@@ -151,5 +151,6 @@ public class DiaryActivity extends AppCompatActivity {
         public String getContent() {
             return content;
         }
+
     }
 }

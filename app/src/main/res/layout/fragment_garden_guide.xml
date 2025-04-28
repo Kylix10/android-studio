@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/yellow"
     android:fillViewport="true">
 
     <LinearLayout
@@ -11,21 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
-        <!-- 标题 -->
-        <TextView
-            android:id="@+id/textyouyuan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:background="@color/teal_200"
-            android:padding="16dp"
-            android:text="游园须知"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
         <!-- 开放时间 -->
         <androidx.cardview.widget.CardView
@@ -202,7 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200"
+            android:background="@color/line"
             android:padding="16dp"
             android:text="祝您在承德避暑山庄享受一段清凉雅致的历史文化之旅！"
             android:textAlignment="center"

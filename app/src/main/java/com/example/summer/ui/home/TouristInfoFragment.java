@@ -31,7 +31,7 @@ public class TouristInfoFragment extends Fragment {
     
     private void initializeViews() {
         // 设置标题
-        TextView titleTextView = rootView.findViewById(R.id.tvTitle);
+        //TextView titleTextView = rootView.findViewById(R.id.tvTitle);
         
         // 添加简单的进入动画效果，使页面更生动
         rootView.setAlpha(0f);

@@ -4,22 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fillViewport="true">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal_700"
+        android:background="@color/indicator_selected_color"
         android:elevation="4dp"
-        app:titleTextColor="@color/white" />
+        app:title="人流量"
+        app:titleTextColor="@color/white"
+        app:navigationIconTint="@color/white"/>
 
     <!-- 标题栏 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -27,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="避暑山庄景点人流量统计"
-            android:textColor="@color/white"
+            android:textColor="@color/line"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -36,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="按人流量从高到低排序，帮助您了解各景点实时人流情况"
-            android:textColor="@color/white"
+            android:textColor="@color/line"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -46,7 +48,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="景点实时人流量统计（数据5分钟更新一次）："
-        android:textColor="@color/black"
+        android:textColor="@color/line"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -54,13 +56,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbarStyle="insideInset">
 
         <!-- 容器 -->
         <LinearLayout
             android:id="@+id/crowd_stats_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/yellow"
             android:orientation="vertical"
             android:padding="16dp" />
     </ScrollView>

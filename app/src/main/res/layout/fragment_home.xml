@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/yellow"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    app:tint="#CCA663">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,243 +14,364 @@
         android:padding="16dp">
 
         <!-- 顶部标题 -->
-
-        <!-- 图片轮播区域 -->
         <TextView
             android:id="@+id/texthome"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:padding="16dp"
             android:text="承德避暑山庄"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            android:textColor="@color/teal_500"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
-        <!-- TabLayout 用作分页指示器 -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="385dp"
-            android:layout_height="253dp"
-            android:clickable="true"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:paddingHorizontal="16dp" />
+        <!-- 图片轮播区域 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="100dp"
-            android:layout_height="5dp"
-            android:layout_gravity="center_horizontal"
-            app:tabIndicatorColor="@color/indicator_selected_color"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/indicator_selected_color"
-            app:tabTextColor="@color/indicator_unselected_color" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:focusable="true" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="8dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="12dp"
+                    android:background="@android:color/transparent"
+                    app:tabBackground="@android:color/transparent"
+                    app:tabIndicatorColor="@color/indicator_selected_color"
+                    app:tabIndicatorHeight="8dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/indicator_selected_color"
+                    app:tabTextColor="@color/indicator_unselected_color" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
         <!-- 核心服务 -->
         <TextView
-            android:layout_width="155dp"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:text="核心服务"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            android:textColor="@color/teal_500"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="400dp"
-            android:layout_height="97dp"
-            android:orientation="horizontal"
-            android:paddingTop="20dp"
-            android:spacing="16dp">
-
-            <LinearLayout
-                android:layout_width="138dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <!-- 调整图片缩放方式 -->
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="35dp"
-                    android:contentDescription="@null"
-                    android:layerType="hardware"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_group"
-                    android:visibility="visible" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_crowd_stats"
-                    android:background="@drawable/button_primary"
-                    android:text="猜猜人数"
-                    android:textColor="@color/text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="115dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <!-- 调整图片缩放方式 -->
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="35dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_ticket" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_ticket"
-                    android:background="@drawable/button_primary"
-                    android:text="购票入口"
-                    android:textColor="@color/text" />
-            </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:weightSum="3">
 
-                <ImageView
-                    android:layout_width="103dp"
-                    android:layout_height="35dp"
-                    android:contentDescription="@null"
-                    android:layerType="hardware"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_notifications"
-                    android:visibility="visible" />
-
-                <Button
-                    android:layout_width="109dp"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_recommend"
-                    android:background="@drawable/button_primary"
-                    android:text="景点推荐"
-                    android:textColor="@color/text" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_money"
+                        app:tint="#CCA663"/>
+
+                    <Button
+                        android:id="@+id/btn_crowd_stats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="猜猜人数"
+                        android:textColor="@color/text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_ticket" />
+
+                    <Button
+                        android:id="@+id/btn_ticket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="购票入口"
+                        android:textColor="@color/text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_notifications"
+                        app:tint="#CCA663"/>
+
+                    <Button
+                        android:id="@+id/btn_recommend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="景点推荐"
+                        android:textColor="@color/text" />
+                </LinearLayout>
             </LinearLayout>
-
-
-        </LinearLayout>
-
+        </androidx.cardview.widget.CardView>
 
         <!-- 游客服务 -->
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
-            android:text="游客服务"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="83dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="游客服务"
+            android:textColor="@color/teal_500"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
             <LinearLayout
-                android:layout_width="134dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:weightSum="3">
 
-                <!-- 调整图片缩放方式 -->
-
-                <ImageView
-                    android:layout_width="57dp"
-                    android:layout_height="39dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_chat" />
-
-                <Button
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_primary"
-                    android:text="游客应知"
-                    android:textColor="@color/text"
-                    android:id="@+id/btn_youkeyingzhi" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="119dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_group"
+                        app:tint="#CCA663"/>
 
-                <!-- 调整图片缩放方式 -->
+                    <Button
+                        android:id="@+id/btn_youkeyingzhi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="游客应知"
+                        android:textColor="@color/text" />
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_map" />
-
-                <Button
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_jingquguilan"
-                    android:background="@drawable/button_primary"
-                    android:text="景区概览"
-                    android:textColor="@color/text" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="111dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_map"
+                        app:tint="#CCA663"/>
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_known" /> <!-- 调整图片缩放方式 -->
+                    <Button
+                        android:id="@+id/btn_jingquguilan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="景区概览"
+                        android:textColor="@color/text" />
+                </LinearLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_youxuan"
-                    android:background="@drawable/button_primary"
-                    android:text="游园须知"
-                    android:textColor="@color/text" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_known"
+                        app:tint="#CCA663"/>
+
+                    <Button
+                        android:id="@+id/btn_youxuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_primary"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="游园须知"
+                        android:textColor="@color/text" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-
-
+        </androidx.cardview.widget.CardView>
 
         <!-- 最新公告 -->
         <TextView
-            android:layout_width="130dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:text="最新公告"
-            android:textColor="@color/teal_200"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            android:textColor="@color/teal_500"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="169dp"
-            android:padding="16dp"
-            android:text="【限时优惠】暑期门票半价开放！学生证，退伍军人等可享受优惠福利！\n【恢复开放公告】 根据天气情况，避暑山庄及周围寺庙景区将于2025年4月14日恢复开放。\n特此通知，感谢您的关注!"
-            android:textColor="@color/orange"
-            android:textSize="14sp"
-            android:visibility="visible" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#FFF8E1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="#CCA663"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="【限时优惠】暑期门票半价开放！学生证，退伍军人等可享受优惠福利！"
+                            android:textColor="@color/orange"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="#E8F5E9"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="#CCA663"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="【恢复开放公告】 根据天气情况，避暑山庄及周围寺庙景区将于2025年4月14日恢复开放。"
+                            android:textColor="@color/teal_500"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="特此通知，感谢您的关注!"
+                    android:textColor="@color/orange"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

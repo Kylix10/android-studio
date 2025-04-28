@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_home"> <!-- 首页为默认的起始页面 -->
+    app:startDestination="@id/nav_home"
+    app:tint="#CCA663"> <!-- 首页为默认的起始页面 -->
 
     <!-- 首页 -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.summer.ui.home.HomeFragment"
-        android:label="首页">
+        android:label="首页"
+        app:tint="#CCA663">
         <!-- 从首页到游园须知详情页的动作 -->
         <action
             android:id="@+id/action_home_to_gardenGuide"
