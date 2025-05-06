@@ -118,7 +118,7 @@ public class DashboardFragment extends Fragment {
         });
 
 
-        // 初始化地图中心点
+        // 初始化地图中心点为承德避暑山庄
         LatLng chengdeSummerResort = new LatLng(40.9978, 117.9413);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(chengdeSummerResort, 15.8f));
 
@@ -345,8 +345,8 @@ public class DashboardFragment extends Fragment {
         Button noEndButton = view.findViewById(R.id.confirm_noendpoint_final_button);
         builder.setView(view);
 
-        builder.setTitle("确定终点");
-        builder.setMessage("请输入终点地址");
+        //builder.setTitle("确定终点");
+        //builder.setMessage("请输入终点地址");
         flag1=true;
         flag2=true;//有终点
         AlertDialog dialog = builder.create();

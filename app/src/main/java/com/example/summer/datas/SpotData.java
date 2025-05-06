@@ -285,7 +285,7 @@ public class SpotData {
         TreeNode node = findNode(root, locationName);
         return node != null ? node.currentCrowd : -1;
     }
-
+//优化搜索
     private TreeNode findNode(TreeNode node, String name) {
         if (node.name.equals(name)) {
             return node;
