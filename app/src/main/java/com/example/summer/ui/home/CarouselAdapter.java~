@@ -1,0 +1,69 @@
+package com.example.summer.ui.home;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.summer.R;
+
+import java.util.List;
+
+public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHolder> {
+     static final int LOOP_MULTIPLIER = 200;
+    private final List<Integer> imageResources;
+
+    public CarouselAdapter(List<Integer> images) {
+        this.imageResources = images;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 为每个视图创建一个新的 ViewHolder
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_carousel_image, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemCount() {
+        return imageResources.isEmpty() ? 0 : imageResources.size() * LOOP_MULTIPLIER;
+    }
+
+    // CarouselAdapter.java
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int realPos = getRealPosition(position);
+        Glide.with(holder.itemView.getContext())
+                .load(imageResources.get(realPos))
+                .override(800, 600) // 压缩图片尺寸
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // 启用缓存
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.imageView);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.imageView);
+        }
+    }
+
+
+
+    public int getRealCount() {
+        return imageResources.size();
+    }
+
+    // 新增方法：虚拟位置转实际位置
+    public int getRealPosition(int position) {
+        return position % getRealCount();
+    }
+}
+
+// CarouselAdapter.java

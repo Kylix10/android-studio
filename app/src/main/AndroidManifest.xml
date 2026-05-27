@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 获取网络状态，根据网络状态切换进行数据请求网络转换 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 读取外置存储。如果开发者使用了so动态加载功能并且把so文件放在了外置存储区域，则需要申请该权限，否则不需要 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 写外置存储。如果开发者使用了离线地图，并且数据写在外置存储区域，则需要申请该权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 前台服务权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- Android 13+ 通知权限 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".DemoApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/shui"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/shui"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Summer"
+        tools:targetApi="31">
+        
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="eFlw8kHfdRUCt2UjpXHkuvCgQFw0o4Gc" />
+        
+        <!-- 百度定位服务 -->
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"/>
+        
+        <!-- 后台定位服务 -->
+        <service
+            android:name=".service.LocationService"
+            android:foregroundServiceType="location" />
+        
+        <!-- 通知广播接收器 -->
+        <receiver
+            android:name=".receiver.NotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.summer.action.SHOW_ALERT" />
+                <action android:name="com.example.summer.action.SHOW_PROMOTION" />
+                <action android:name="com.example.summer.action.SHOW_SYSTEM" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- 位置广播接收器 -->
+        <receiver
+            android:name=".receiver.LocationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.summer.action.SPOT_ARRIVAL" />
+            </intent-filter>
+        </receiver>
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".TicketPurchaseActivity"
+            android:label="避暑山庄购票"
+            android:theme="@style/Theme.Summer.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".CrowdStatsActivity"
+            android:label="景点人流量统计"
+            android:theme="@style/Theme.Summer.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".ui.notifications.DiaryActivity"
+            android:label="我的日记"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".ui.notifications.PersonalInfoActivity"
+            android:label="个人信息"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+    </application>
+</manifest>

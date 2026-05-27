@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow"
+    tools:context=".ui.notifications.NotificationsFragment">
+
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_avatar"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_avatar_background"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/username_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张三"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+            <View
+                android:id="@+id/spacer_view1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/divider1"
+                app:layout_constraintBottom_toTopOf="@id/consult_layout"/>
+
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前位置：承德避暑山庄"
+                android:textSize="15sp"
+                android:textColor="@color/gray"/>
+
+            <View
+                android:id="@+id/spacer_view2"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/divider1"
+                app:layout_constraintBottom_toTopOf="@id/consult_layout"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--咨询-->
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/line"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"/>
+
+    <LinearLayout
+        android:id="@+id/consult_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider1">
+
+        <ImageView
+            android:id="@+id/consult_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_consult" />
+
+        <TextView
+            android:id="@+id/consult_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在线咨询"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--个人-->
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintTop_toBottomOf="@id/consult_layout"/>
+
+    <LinearLayout
+        android:id="@+id/personal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider2">
+
+        <ImageView
+            android:id="@+id/personal_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_personal" />
+
+        <TextView
+            android:id="@+id/personal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人信息"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--我的日记-->
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintTop_toBottomOf="@id/personal_layout"/>
+
+    <LinearLayout
+        android:id="@+id/diary_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider4"
+        app:layout_constraintBottom_toTopOf="@id/divider5">
+
+        <ImageView
+            android:id="@+id/diary_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_diary"
+            />
+
+        <TextView
+            android:id="@+id/diary_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的日记"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+    <!--帮助中心-->
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintTop_toBottomOf="@id/diary_layout"
+        app:layout_constraintBottom_toTopOf="@id/help_layout" />
+
+    <LinearLayout
+        android:id="@+id/help_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/divider5">
+
+        <ImageView
+            android:id="@+id/help_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_help" />
+
+        <TextView
+            android:id="@+id/help_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="帮助中心"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/help_layout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="27dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
