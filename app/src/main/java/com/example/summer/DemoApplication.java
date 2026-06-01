@@ -1,29 +1,39 @@
 package com.example.summer;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.summer.datas.SpotData;
+import com.example.summer.utils.LocationStateManager;
 import com.example.summer.utils.NotificationChannelManager;
 
 public class DemoApplication extends Application {
     private SpotData spotData; // 持有树数据的实例
+
     @Override
     public void onCreate() {
         super.onCreate();
-        SDKInitializer.setAgreePrivacy(getApplicationContext(),true);
+        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
         SDKInitializer.initialize(getApplicationContext());
         SDKInitializer.setCoordType(CoordType.BD09LL);
         LocationClient.setAgreePrivacy(true);
+        
         // 应用启动时初始化树，仅创建一次
         spotData = new SpotData();
+
+        // 注册位置状态变化监听器，自动刷新景点树状数据，实现全局解耦联动！
+        LocationStateManager.getInstance().registerListener(config -> {
+            if (spotData != null) {
+                spotData.buildTreeForLocation(config.getName());
+            }
+        });
 
         // 初始化通知渠道
         NotificationChannelManager.createNotificationChannels(getApplicationContext());
     }
+
     // 提供公共方法获取树数据
     public SpotData getSpotData() {
         return spotData;

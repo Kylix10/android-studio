@@ -22,7 +22,7 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
     private final AtomicBoolean isPreloadActive = new AtomicBoolean(true);
 
     public CarouselAdapter(List<Integer> images) {
-        this.imageResources = images;
+        this.imageResources = new java.util.ArrayList<>(images);
         
         // 预先创建Glide配置，提高性能
         this.glideOptions = new RequestOptions()
@@ -30,6 +30,12 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.ViewHo
                 .override(800, 600)
                 .centerCrop()
                 .dontAnimate();
+    }
+
+    public void updateImages(List<Integer> newImages) {
+        this.imageResources.clear();
+        this.imageResources.addAll(newImages);
+        notifyDataSetChanged();
     }
 
     @NonNull

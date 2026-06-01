@@ -1,128 +1,69 @@
 package com.example.summer.utils;
 
-import okhttp3.*;
-import java.io.IOException;
+import com.openai.client.OpenAIClient;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.models.ChatCompletion;
+import com.openai.models.ChatCompletionCreateParams;
+import com.openai.models.ChatCompletionSystemMessageParam;
+import com.openai.models.ChatCompletionUserMessageParam;
+import com.openai.models.ChatCompletionAssistantMessageParam;
+import com.openai.models.ChatCompletionMessageParam;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class WenXin {
 
-    public static final String API_KEY = "qrwZfhrrNEwJsgOb1YKLPA9I";
-    public static final String SECRET_KEY = "vmTGbkzOWxNjP60BrmMVUDeSD5Pv8K0D";
-
-    public List<Map<String, String>> Dialogue_Content;
-
-    private static final int MAX_RETRIES = 3;
-    private static final OkHttpClient client = new OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .build();
+    // 请将此处替换为你在千帆控制台获取的真实 API Key
+    private static final String API_KEY = "your_APIKey";
+    private final OpenAIClient client;
+    private final List<ChatCompletionMessageParam> dialogueContent; // 存储对话历史
 
     public WenXin() {
-        Dialogue_Content = new ArrayList<>();
-    }
-
-    public String getLocationIntroduction(String location) throws IOException {
-        Map<String, String> userMessage = new HashMap<>();
-        userMessage.put("role", "user");
-        userMessage.put("content", "请介绍一下承德避暑山庄的 " + location);
-
-        Dialogue_Content.add(userMessage);
-
-        String messagesJson = buildMessagesJson();
-        String requestBody = "{\"messages\":" +
-                messagesJson +
-                ",\"system\":\"你是一位承德避暑山庄的地图导览助手，你只回答对于输入的承德避暑山庄内的地点名称的简介，回答字数限制在250字以内\",\"disable_search\":false,\"enable_citation\":false}";
-
-        Request request = new Request.Builder()
-                .url("https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" +
-                        getAccessToken())
-                .post(RequestBody.create(MediaType.parse("application/json"), requestBody))
+        this.client = OpenAIOkHttpClient.builder()
+                .apiKey(API_KEY)
+                .baseUrl("https://qianfan.baidubce.com/v2/")
                 .build();
+        this.dialogueContent = new ArrayList<>();
 
-        return executeRequestWithRetry(request, 0);
+        // 动态抓取当前景区名称生成系统提示词，实现 AI 服务解耦
+        String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
+
+        // 添加系统提示词
+        dialogueContent.add(ChatCompletionMessageParam.ofSystem(ChatCompletionSystemMessageParam.builder()
+                .content("你是一位" + activeName + "的地图导览助手，你只回答对于输入的" + activeName + "内的地点名称的简介，回答字数限制在250字以内")
+                .build()));
     }
 
-    public String getAccessToken() throws IOException {
-        String requestBody = "grant_type=client_credentials&client_id=" + API_KEY + "&client_secret=" + SECRET_KEY;
+    public String getLocationIntroduction(String location) {
+        try {
+            // 动态抓取当前景区名称拼装用户提问
+            String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
 
-        Request request = new Request.Builder()
-                .url("https://aip.baidubce.com/oauth/2.0/token")
-                .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), requestBody))
-                .build();
+            // 添加用户输入
+            dialogueContent.add(ChatCompletionMessageParam.ofUser(ChatCompletionUserMessageParam.builder()
+                    .content("请介绍一下" + activeName + "的 " + location)
+                    .build()));
 
-        return executeRequestWithRetry(request, 0);
-    }
+            // 构建请求参数
+            ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
+                    .messages(dialogueContent)
+                    .model("deepseek-r1-distill-qianfan-70b") // 根据需求选择模型
+                    .build();
 
-    private String buildMessagesJson() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < Dialogue_Content.size(); i++) {
-            Map<String, String> message = Dialogue_Content.get(i);
-            sb.append("{");
-            int count = 0;
-            for (Map.Entry<String, String> entry : message.entrySet()) {
-                if (count > 0) {
-                    sb.append(",");
-                }
-                sb.append("\"").append(entry.getKey()).append("\":\"").append(entry.getValue()).append("\"");
-                count++;
-            }
-            sb.append("}");
-            if (i < Dialogue_Content.size() - 1) {
-                sb.append(",");
-            }
+            // 发起请求
+            ChatCompletion chatCompletion = client.chat().completions().create(params);
+            String responseContent = chatCompletion.choices().get(0).message().content().orElse("");
+
+            // 可选：将AI的回复也添加到历史记录中，以保持上下文
+            dialogueContent.add(ChatCompletionMessageParam.ofAssistant(ChatCompletionAssistantMessageParam.builder()
+                    .content(responseContent)
+                    .build()));
+
+            return responseContent;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private String executeRequestWithRetry(Request request, int retryCount) throws IOException {
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                if (retryCount < MAX_RETRIES) {
-                    try {
-                        TimeUnit.SECONDS.sleep(2);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-                    return executeRequestWithRetry(request, retryCount + 1);
-                }
-                throw new IOException("Unexpected code " + response);
-            }
-            String responseData = response.body().string();
-            if (request.url().toString().contains("oauth/2.0/token")) {
-                return parseAccessToken(responseData);
-            } else {
-                return parseResponse(responseData);
-            }
-        }
-    }
-
-    private String parseResponse(String response) {
-        int startIndex = response.indexOf("\"result\":\"");
-        if (startIndex != -1) {
-            startIndex += "\"result\":\"".length();
-            int endIndex = response.indexOf("\"", startIndex);
-            if (endIndex != -1) {
-                return response.substring(startIndex, endIndex);
-            }
-        }
-        return "";
-    }
-
-    private String parseAccessToken(String response) {
-        int startIndex = response.indexOf("\"access_token\":\"");
-        if (startIndex != -1) {
-            startIndex += "\"access_token\":\"".length();
-            int endIndex = response.indexOf("\"", startIndex);
-            if (endIndex != -1) {
-                return response.substring(startIndex, endIndex);
-            }
-        }
-        return "";
     }
 }

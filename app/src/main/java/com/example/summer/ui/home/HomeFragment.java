@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private CarouselAdapter carouselAdapter;
     private View rootView;
     private boolean isViewInitialized = false;
+    private com.example.summer.utils.LocationStateManager.OnLocationChangeListener locationListener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +63,32 @@ public class HomeFragment extends Fragment {
                 carouselAdapter.enablePreloading();
                 resumeAutoScroll();
             }
+        }
+
+        // 注册位置状态改变监听器，实现首页标题与Banner联动
+        locationListener = config -> {
+            if (rootView == null) return;
+            TextView texthome = rootView.findViewById(R.id.texthome);
+            if (texthome != null) {
+                texthome.setText(config.getName());
+            }
+            if (carouselAdapter != null) {
+                List<Integer> list = new java.util.ArrayList<>();
+                for (int id : config.getBannerResIds()) {
+                    list.add(id);
+                }
+                carouselAdapter.updateImages(list);
+            }
+        };
+        com.example.summer.utils.LocationStateManager.getInstance().registerListener(locationListener);
+
+        // 设置点击顶部栏切换景区的监听器
+        View layoutLocationSwitch = rootView.findViewById(R.id.layout_location_switch);
+        if (layoutLocationSwitch != null) {
+            layoutLocationSwitch.setOnClickListener(v -> {
+                LocationSwitchDialogFragment dialog = new LocationSwitchDialogFragment();
+                dialog.show(getParentFragmentManager(), "LocationSwitch");
+            });
         }
     }
     
@@ -315,6 +343,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (locationListener != null) {
+            com.example.summer.utils.LocationStateManager.getInstance().unregisterListener(locationListener);
+        }
         if (viewPager != null) {
             viewPager.unregisterOnPageChangeCallback(viewPager.getChildAt(0).getTag() != null
                     ? (ViewPager2.OnPageChangeCallback) viewPager.getChildAt(0).getTag()

@@ -1,4 +1,3 @@
-
 package com.example.summer.datas;
 
 import java.util.*;
@@ -16,7 +15,7 @@ class TreeNode {
     int currentCrowd;
     int lastCrowd;
     List<TreeNode> children;
-    boolean isToilet; // **新增：是否为公共厕所标签**
+    boolean isToilet; // **是否为公共厕所标签**
 
     // 带标签的构造方法
     public TreeNode(String name, boolean isToilet) {
@@ -46,7 +45,6 @@ class CrowdSimulator {
     private static final int TOILET_MIN_CROWD = 5;
     private static final int TOILET_MAX_CROWD = 25;
 
-
     static {
         // 预设时间段基础人流量（高峰时段权重高，低谷权重低）
         TIME_PERIOD_WEIGHT.put("09:00-11:00", 180);
@@ -70,8 +68,7 @@ class CrowdSimulator {
         // 更新当前人流量
         node.lastCrowd = node.currentCrowd;
 
-        // 限制人流量在合理范围（如0-2000）
-        // **通过标签判断是否为公共厕所**
+        // 限制人流量在合理范围
         if (node.isToilet) { // 灵活判断，不依赖名称
             node.currentCrowd = Math.max(TOILET_MIN_CROWD, Math.min(TOILET_MAX_CROWD, node.currentCrowd));
         } else {
@@ -81,16 +78,12 @@ class CrowdSimulator {
     }
 
     private String getCurrentTime() {
-        // 获取当前时间（格式：HH:mm）
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return sdf.format(calendar.getTime());
     }
 
     private String getTimePeriod(String time) {
-        // 将时间映射到预设时间段（如"10:30"映射到"09:00-11:00"）
-        // 具体实现根据需求调整
-        // 解析小时部分（HH）进行判断
         int hour = Integer.parseInt(time.split(":")[0]);
 
         if (hour >= 9 && hour <= 11) {
@@ -112,105 +105,235 @@ public class SpotData {
 
     public SpotData() {
         crowdSimulator = new CrowdSimulator();
-        // 初始化根节点为承德避暑山庄
-        root = new TreeNode("承德避暑山庄");
-
-        // 自然风光类别
-        TreeNode naturalScenery = new TreeNode("自然风光");
-        // 湖泊区
-        TreeNode lakeArea = new TreeNode("湖泊区");
-        lakeArea.addChild(new TreeNode("如意湖"));
-        lakeArea.addChild(new TreeNode("上湖"));
-        lakeArea.addChild(new TreeNode("热河泉"));
-        lakeArea.addChild(new TreeNode("内湖"));
-        // 山峦区
-        TreeNode mountainArea = new TreeNode("山峦区");
-        mountainArea.addChild(new TreeNode("南山积雪"));
-        mountainArea.addChild(new TreeNode("四面云山"));
-        // 平原区
-        TreeNode plainArea = new TreeNode("平原区");
-        plainArea.addChild(new TreeNode("万树园"));
-        plainArea.addChild(new TreeNode("甫田丛樾"));
-
-        naturalScenery.addChild(lakeArea);
-        naturalScenery.addChild(mountainArea);
-        naturalScenery.addChild(plainArea);
-
-        // 历史文化类别
-        TreeNode historicalCulture = new TreeNode("历史文化");
-        // 寺庙建筑
-        TreeNode templeBuildings = new TreeNode("寺庙建筑");
-        templeBuildings.addChild(new TreeNode("溥仁寺"));
-        templeBuildings.addChild(new TreeNode("普宁寺"));
-        templeBuildings.addChild(new TreeNode("法林寺"));
-        templeBuildings.addChild(new TreeNode("碧峰寺遗址"));
-        templeBuildings.addChild(new TreeNode("灵泽龙王庙"));
-        templeBuildings.addChild(new TreeNode("永佑寺"));
-
-
-        // 园林景观
-        TreeNode gardenLandscape = new TreeNode("园林景观");
-        gardenLandscape.addChild(new TreeNode("曲水荷香"));
-        gardenLandscape.addChild(new TreeNode("濠濮间想"));
-        // 碑刻文化
-        TreeNode steleCulture = new TreeNode("碑刻文化");
-        steleCulture.addChild(new TreeNode("避暑山庄碑"));
-        steleCulture.addChild(new TreeNode("双湖夹镜碑"));
-        steleCulture.addChild(new TreeNode("绿毯八韵碑"));
-
-        // 宫殿建筑
-        TreeNode palaceBuildings = new TreeNode("宫殿建筑");
-        palaceBuildings.addChild(new TreeNode("澹泊敬诚殿"));
-        palaceBuildings.addChild(new TreeNode("四知书屋"));
-        palaceBuildings.addChild(new TreeNode("烟波致爽殿"));
-
-        historicalCulture.addChild(templeBuildings);
-        historicalCulture.addChild(gardenLandscape);
-        historicalCulture.addChild(steleCulture);
-        historicalCulture.addChild(palaceBuildings);
-
-        // 景区设施类别
-        TreeNode scenicFacilities = new TreeNode("景区设施");
-
-        // 在景区厕所下添加公共厕所1、2、3、4四个子节点
-        TreeNode publicToilets = new TreeNode("景区厕所"); // 父节点无需标记
-        // 子节点均标记为公共厕所
-        publicToilets.addChild(new TreeNode("公共厕所1", true));
-        publicToilets.addChild(new TreeNode("公共厕所2", true));
-        publicToilets.addChild(new TreeNode("公共厕所3", true));
-        publicToilets.addChild(new TreeNode("公共厕所4", true));
-        scenicFacilities.addChild(publicToilets);
-
-        // 在停车场下添加地下停车场、地上停车场两个子节点
-        TreeNode parkingLot = new TreeNode("停车场");
-        parkingLot.addChild(new TreeNode("地下停车场"));
-        parkingLot.addChild(new TreeNode("地上停车场"));
-        scenicFacilities.addChild(parkingLot);
-
-        // 在景区出入口添加丽正门、德汇门两个子节点
-        TreeNode entranceExit = new TreeNode("景区出入口");
-        entranceExit.addChild(new TreeNode("丽正门"));
-        entranceExit.addChild(new TreeNode("德汇门"));
-        scenicFacilities.addChild(entranceExit);
-
-        scenicFacilities.addChild(new TreeNode("游客中心"));
-
-        // 将类别节点添加到根节点
-        root.addChild(naturalScenery);
-        root.addChild(historicalCulture);
-        root.addChild(scenicFacilities);
-
-        // 初始化人流量
-        initializeCrowd(root);
+        
+        // 默认初始化为：承德避暑山庄树状数据
+        buildTreeForLocation("承德避暑山庄");
 
         // 初始化调度器
         scheduler = Executors.newScheduledThreadPool(1);
         // 每5分钟更新一次人流量
-        scheduler.scheduleAtFixedRate(() -> updateAllCrowds(root), 0, 5, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(() -> {
+            if (root != null) {
+                updateAllCrowds(root);
+            }
+        }, 0, 5, TimeUnit.MINUTES);
+    }
+
+    // 根据选择的景区动态构建树结构
+    public void buildTreeForLocation(String locationName) {
+        root = new TreeNode(locationName);
+
+        if ("北京颐和园".equals(locationName)) {
+            // 自然风光类别
+            TreeNode naturalScenery = new TreeNode("自然风光");
+            TreeNode lakeArea = new TreeNode("湖泊区");
+            lakeArea.addChild(new TreeNode("昆明湖"));
+            lakeArea.addChild(new TreeNode("万寿山"));
+            lakeArea.addChild(new TreeNode("十七孔桥"));
+            lakeArea.addChild(new TreeNode("知春亭"));
+            naturalScenery.addChild(lakeArea);
+
+            TreeNode mountainArea = new TreeNode("山峦区");
+            mountainArea.addChild(new TreeNode("画中游"));
+            mountainArea.addChild(new TreeNode("智慧海"));
+            naturalScenery.addChild(mountainArea);
+
+            // 历史文化类别
+            TreeNode historicalCulture = new TreeNode("历史文化");
+            TreeNode palaceBuildings = new TreeNode("宫殿区");
+            palaceBuildings.addChild(new TreeNode("仁寿殿"));
+            palaceBuildings.addChild(new TreeNode("玉澜堂"));
+            palaceBuildings.addChild(new TreeNode("乐寿堂"));
+            historicalCulture.addChild(palaceBuildings);
+
+            TreeNode gardenLandscape = new TreeNode("园林景观");
+            gardenLandscape.addChild(new TreeNode("谐趣园"));
+            gardenLandscape.addChild(new TreeNode("苏州街"));
+            historicalCulture.addChild(gardenLandscape);
+
+            // 景区设施类别
+            TreeNode scenicFacilities = new TreeNode("景区设施");
+            TreeNode entranceExit = new TreeNode("景区出入口");
+            entranceExit.addChild(new TreeNode("东宫门"));
+            entranceExit.addChild(new TreeNode("新建宫门"));
+            scenicFacilities.addChild(entranceExit);
+
+            TreeNode publicToilets = new TreeNode("景区厕所");
+            publicToilets.addChild(new TreeNode("公共厕所1", true));
+            publicToilets.addChild(new TreeNode("公共厕所2", true));
+            publicToilets.addChild(new TreeNode("公共厕所3", true));
+            scenicFacilities.addChild(publicToilets);
+
+            root.addChild(naturalScenery);
+            root.addChild(historicalCulture);
+            root.addChild(scenicFacilities);
+
+        } else if ("杭州西湖".equals(locationName)) {
+            // 自然风光类别
+            TreeNode naturalScenery = new TreeNode("自然风光");
+            TreeNode lakeArea = new TreeNode("湖泊区");
+            lakeArea.addChild(new TreeNode("三潭印月"));
+            lakeArea.addChild(new TreeNode("苏堤春晓"));
+            lakeArea.addChild(new TreeNode("平湖秋月"));
+            lakeArea.addChild(new TreeNode("断桥残雪"));
+            naturalScenery.addChild(lakeArea);
+
+            TreeNode mountainArea = new TreeNode("山峦区");
+            mountainArea.addChild(new TreeNode("葛岭"));
+            mountainArea.addChild(new TreeNode("孤山"));
+            naturalScenery.addChild(mountainArea);
+
+            // 历史文化类别
+            TreeNode historicalCulture = new TreeNode("历史文化");
+            TreeNode palaceBuildings = new TreeNode("古迹地标");
+            palaceBuildings.addChild(new TreeNode("雷峰塔"));
+            palaceBuildings.addChild(new TreeNode("保俶塔"));
+            palaceBuildings.addChild(new TreeNode("岳王庙"));
+            historicalCulture.addChild(palaceBuildings);
+
+            TreeNode gardenLandscape = new TreeNode("园林景观");
+            gardenLandscape.addChild(new TreeNode("花港观鱼"));
+            gardenLandscape.addChild(new TreeNode("柳浪闻莺"));
+            gardenLandscape.addChild(new TreeNode("曲院风荷"));
+            historicalCulture.addChild(gardenLandscape);
+
+            // 景区设施类别
+            TreeNode scenicFacilities = new TreeNode("景区设施");
+            TreeNode entranceExit = new TreeNode("景区出入口");
+            entranceExit.addChild(new TreeNode("断桥入口"));
+            entranceExit.addChild(new TreeNode("苏堤入口"));
+            scenicFacilities.addChild(entranceExit);
+
+            TreeNode publicToilets = new TreeNode("景区厕所");
+            publicToilets.addChild(new TreeNode("公共厕所1", true));
+            publicToilets.addChild(new TreeNode("公共厕所2", true));
+            publicToilets.addChild(new TreeNode("公共厕所3", true));
+            scenicFacilities.addChild(publicToilets);
+
+            root.addChild(naturalScenery);
+            root.addChild(historicalCulture);
+            root.addChild(scenicFacilities);
+
+        } else if ("泰安泰山".equals(locationName)) {
+            // 自然风光类别
+            TreeNode naturalScenery = new TreeNode("自然风光");
+            TreeNode lakeArea = new TreeNode("景区区域");
+            lakeArea.addChild(new TreeNode("红门"));
+            lakeArea.addChild(new TreeNode("中天门"));
+            lakeArea.addChild(new TreeNode("南天门"));
+            lakeArea.addChild(new TreeNode("玉皇顶"));
+            naturalScenery.addChild(lakeArea);
+
+            TreeNode mountainArea = new TreeNode("峰峦湖泊");
+            mountainArea.addChild(new TreeNode("日观峰"));
+            mountainArea.addChild(new TreeNode("扇子崖"));
+            mountainArea.addChild(new TreeNode("黑龙潭"));
+            naturalScenery.addChild(mountainArea);
+
+            // 历史文化类别
+            TreeNode historicalCulture = new TreeNode("历史文化");
+            TreeNode palaceBuildings = new TreeNode("寺庙碑刻");
+            palaceBuildings.addChild(new TreeNode("岱庙"));
+            palaceBuildings.addChild(new TreeNode("碧霞祠"));
+            palaceBuildings.addChild(new TreeNode("唐摩崖"));
+            historicalCulture.addChild(palaceBuildings);
+
+            // 景区设施类别
+            TreeNode scenicFacilities = new TreeNode("景区设施");
+            TreeNode entranceExit = new TreeNode("景区出入口");
+            entranceExit.addChild(new TreeNode("红门入口"));
+            entranceExit.addChild(new TreeNode("天外村入口"));
+            scenicFacilities.addChild(entranceExit);
+
+            TreeNode publicToilets = new TreeNode("景区厕所");
+            publicToilets.addChild(new TreeNode("公共厕所1", true));
+            publicToilets.addChild(new TreeNode("公共厕所2", true));
+            publicToilets.addChild(new TreeNode("公共厕所3", true));
+            scenicFacilities.addChild(publicToilets);
+
+            root.addChild(naturalScenery);
+            root.addChild(historicalCulture);
+            root.addChild(scenicFacilities);
+
+        } else {
+            // 承德避暑山庄 original tree
+            // 自然风光类别
+            TreeNode naturalScenery = new TreeNode("自然风光");
+            TreeNode lakeArea = new TreeNode("湖泊区");
+            lakeArea.addChild(new TreeNode("如意湖"));
+            lakeArea.addChild(new TreeNode("上湖"));
+            lakeArea.addChild(new TreeNode("热河泉"));
+            lakeArea.addChild(new TreeNode("内湖"));
+            naturalScenery.addChild(lakeArea);
+
+            TreeNode mountainArea = new TreeNode("山峦区");
+            mountainArea.addChild(new TreeNode("南山积雪"));
+            mountainArea.addChild(new TreeNode("四面云山"));
+            naturalScenery.addChild(mountainArea);
+
+            TreeNode plainArea = new TreeNode("平原区");
+            plainArea.addChild(new TreeNode("万树园"));
+            plainArea.addChild(new TreeNode("甫田丛樾"));
+            naturalScenery.addChild(plainArea);
+
+            // 历史文化类别
+            TreeNode historicalCulture = new TreeNode("历史文化");
+            TreeNode templeBuildings = new TreeNode("寺庙建筑");
+            templeBuildings.addChild(new TreeNode("溥仁寺"));
+            templeBuildings.addChild(new TreeNode("普宁寺"));
+            templeBuildings.addChild(new TreeNode("法林寺"));
+            templeBuildings.addChild(new TreeNode("碧峰寺遗址"));
+            templeBuildings.addChild(new TreeNode("灵泽龙王庙"));
+            templeBuildings.addChild(new TreeNode("永佑寺"));
+            historicalCulture.addChild(templeBuildings);
+
+            TreeNode gardenLandscape = new TreeNode("园林景观");
+            gardenLandscape.addChild(new TreeNode("曲水荷香"));
+            gardenLandscape.addChild(new TreeNode("濠濮间想"));
+            historicalCulture.addChild(gardenLandscape);
+
+            TreeNode steleCulture = new TreeNode("碑刻文化");
+            steleCulture.addChild(new TreeNode("避暑山庄碑"));
+            steleCulture.addChild(new TreeNode("双湖夹镜碑"));
+            steleCulture.addChild(new TreeNode("绿毯八韵碑"));
+            historicalCulture.addChild(steleCulture);
+
+            TreeNode palaceBuildings = new TreeNode("宫殿建筑");
+            palaceBuildings.addChild(new TreeNode("澹泊敬诚殿"));
+            palaceBuildings.addChild(new TreeNode("四知书屋"));
+            palaceBuildings.addChild(new TreeNode("烟波致爽殿"));
+            historicalCulture.addChild(palaceBuildings);
+
+            // 景区设施类别
+            TreeNode scenicFacilities = new TreeNode("景区设施");
+            TreeNode publicToilets = new TreeNode("景区厕所");
+            publicToilets.addChild(new TreeNode("公共厕所1", true));
+            publicToilets.addChild(new TreeNode("公共厕所2", true));
+            publicToilets.addChild(new TreeNode("公共厕所3", true));
+            publicToilets.addChild(new TreeNode("公共厕所4", true));
+            scenicFacilities.addChild(publicToilets);
+
+            TreeNode parkingLot = new TreeNode("停车场");
+            parkingLot.addChild(new TreeNode("地下停车场"));
+            parkingLot.addChild(new TreeNode("地上停车场"));
+            scenicFacilities.addChild(parkingLot);
+
+            TreeNode entranceExit = new TreeNode("景区出入口");
+            entranceExit.addChild(new TreeNode("丽正门"));
+            entranceExit.addChild(new TreeNode("德汇门"));
+            scenicFacilities.addChild(entranceExit);
+
+            scenicFacilities.addChild(new TreeNode("游客中心"));
+
+            root.addChild(naturalScenery);
+            root.addChild(historicalCulture);
+            root.addChild(scenicFacilities);
+        }
+
+        initializeCrowd(root);
     }
 
     private void initializeCrowd(TreeNode node) {
-        // 首次初始化时递归地设置初始人流量（可调用一次更新）
         crowdSimulator.updateCrowd(node);
         for (TreeNode child : node.children) {
             initializeCrowd(child);
@@ -227,7 +350,9 @@ public class SpotData {
     // 深度优先搜索
     public List<String> dfsSearch(String category) {
         List<String> result = new ArrayList<>();
-        dfs(root, category, result);
+        if (root != null) {
+            dfs(root, category, result);
+        }
         return result;
     }
 
@@ -254,6 +379,8 @@ public class SpotData {
     // 广度优先搜索
     public List<String> bfsSearch(String category) {
         List<String> result = new ArrayList<>();
+        if (root == null) return result;
+        
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
@@ -270,6 +397,8 @@ public class SpotData {
 
     // 根据输入的景点类别选择合适的搜索算法
     public List<String> optimizedSearch(String category) {
+        if (root == null) return new ArrayList<>();
+        
         // 简单判断：如果输入的类别是根节点的直接子节点，使用BFS
         for (TreeNode child : root.children) {
             if (child.name.equals(category)) {
@@ -282,10 +411,11 @@ public class SpotData {
 
     // 输入一个地点的名称，返回该地点的人流量
     public int getCrowdByLocationName(String locationName) {
+        if (root == null) return -1;
         TreeNode node = findNode(root, locationName);
         return node != null ? node.currentCrowd : -1;
     }
-//优化搜索
+
     private TreeNode findNode(TreeNode node, String name) {
         if (node.name.equals(name)) {
             return node;
@@ -299,10 +429,9 @@ public class SpotData {
         return null;
     }
 
-
-
     // 输入一个地点的名称，将该地点对应的searchtimes加1，若为类别，则将该分类下所有地点的searchtimes加1
     public void increaseSearchTimes(String locationName) {
+        if (root == null) return;
         TreeNode node = findNode(root, locationName);
         if (node != null) {
             if (node.children.isEmpty()) {
@@ -323,10 +452,10 @@ public class SpotData {
         }
     }
 
-
-    // 新添加的方法，接受节点名，将指定节点下的所有叶节点的name属性存入字符串数组并返回
+    // 将指定节点下的所有叶节点的name属性存入列表并返回
     public List<String> getAllLeafNodeNames(String nodeName) {
         List<String> result = new ArrayList<>();
+        if (root == null) return result;
         TreeNode targetNode = findNode(root, nodeName);
         if (targetNode != null) {
             getAllLeafNodeNamesRecursive(targetNode, result);
@@ -336,7 +465,7 @@ public class SpotData {
 
     private void getAllLeafNodeNamesRecursive(TreeNode node, List<String> result) {
         if (node.children.isEmpty()) {
-            result.add("承德避暑山庄"+node.name);
+            result.add(root.name + node.name);
         } else {
             for (TreeNode child : node.children) {
                 getAllLeafNodeNamesRecursive(child, result);

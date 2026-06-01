@@ -9,6 +9,13 @@ android {
         resources {
             excludes.add("META-INF/license.txt")
             excludes.add("META-INF/notice.txt")
+            excludes.add("META-INF/DEPENDENCIES")
+            excludes.add("META-INF/LICENSE")
+            excludes.add("META-INF/NOTICE")
+        }
+        jniLibs {
+            useLegacyPackaging = true
+            keepDebugSymbols.add("**/libBaiduMapSDK*.so")
         }
     }
 
@@ -21,6 +28,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
+        }
     }
 
     buildTypes {
@@ -60,9 +70,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.openai:openai-java:0.22.0")
 
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+
 
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")

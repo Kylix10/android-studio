@@ -67,6 +67,7 @@ public class DashboardFragment extends Fragment {
     private Button clearMarkersButton;
     private SpotData spotData;
     private List<MarkerOptions> markerPositions = new ArrayList<>();//存标记位置
+    private com.example.summer.utils.LocationStateManager.OnLocationChangeListener locationListener;
 
 
 
@@ -118,9 +119,20 @@ public class DashboardFragment extends Fragment {
         });
 
 
-        // 初始化地图中心点为承德避暑山庄
-        LatLng chengdeSummerResort = new LatLng(40.9978, 117.9413);
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(chengdeSummerResort, 15.8f));
+        // 读取全局位置状态并初始化地图中心点
+        com.example.summer.datas.LocationConfig activeConfig = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation();
+        LatLng activeLatLng = new LatLng(activeConfig.getLatitude(), activeConfig.getLongitude());
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(activeLatLng, 15.8f));
+
+        // 注册位置状态变化监听器，自动在地图上平滑移动中心点并清除之前的标记
+        locationListener = config -> {
+            if (mBaiduMap != null) {
+                LatLng targetLatLng = new LatLng(config.getLatitude(), config.getLongitude());
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngZoom(targetLatLng, 15.8f));
+                clearMapMarkers();
+            }
+        };
+        com.example.summer.utils.LocationStateManager.getInstance().registerListener(locationListener);
 
         // 初始化搜索组件
         addressSearchEditText = root.findViewById(R.id.address_search_edit_text);
@@ -183,7 +195,8 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String input = startEditText.getText().toString().trim();
-                String fullAddress = "承德避暑山庄" + input;
+                String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
+                String fullAddress = activeName + input;
 
                 if (!TextUtils.isEmpty(fullAddress )) {
                     startAddress = input; // 保存地址
@@ -250,7 +263,8 @@ public class DashboardFragment extends Fragment {
                     showMidPointDialog();
                     return;
                 }
-                String fullAddress3 = "承德避暑山庄" + midAddress;
+                String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
+                String fullAddress3 = activeName + midAddress;
                 if (!TextUtils.isEmpty(fullAddress3)) {
                     demoApplication.increaseSearchTimes(fullAddress3);
                     NetworkUtils.getLocationFromAddress(fullAddress3, new Callback() {
@@ -295,7 +309,8 @@ public class DashboardFragment extends Fragment {
                     showEndPointDialog();
                     return;
                 }
-                String fullAddress4 = "承德避暑山庄" + midAddress;
+                String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
+                String fullAddress4 = activeName + midAddress;
                 if (!TextUtils.isEmpty(fullAddress4)) {
                     demoApplication.increaseSearchTimes(fullAddress4);
                     NetworkUtils.getLocationFromAddress(fullAddress4, new Callback() {
@@ -352,7 +367,8 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String input2 = endEditText.getText().toString().trim();
-                String fullAddress2 = "承德避暑山庄" + input2;
+                String activeName = com.example.summer.utils.LocationStateManager.getInstance().getCurrentLocation().getName();
+                String fullAddress2 = activeName + input2;
 
                 if (!TextUtils.isEmpty(fullAddress2)) {
                     endAddress = input2; // 保存地址
@@ -912,6 +928,9 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (locationListener != null) {
+            com.example.summer.utils.LocationStateManager.getInstance().unregisterListener(locationListener);
+        }
         mLocationClient.stop();
         mBaiduMap.setMyLocationEnabled(false);
         mMapView.onDestroy();
@@ -935,11 +954,11 @@ public class DashboardFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            String address = params[0];
-            WenXin wenXin = new WenXin();
             try {
+                String address = params[0];
+                WenXin wenXin = new WenXin();
                 return wenXin.getLocationIntroduction(address);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -947,11 +966,11 @@ public class DashboardFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result != null) {
+            if (result != null && !result.isEmpty()) {
                 showIntroductionDialog(result);
             } else {
                 Log.e("WenXin", "请求失败");
-                Toast.makeText(requireContext(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "获取景点简介失败，请检查网络连接或稍后再试", Toast.LENGTH_SHORT).show();
             }
         }
     }

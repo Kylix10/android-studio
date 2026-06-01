@@ -30,4 +30,35 @@ public class NetworkUtils {
             callback.onFailure(null, e);
         }
     }
+
+    public static void getNearbyPlaces(String query, double lat, double lon, int radius, Callback callback) {
+        try {
+            String encodedQuery = URLEncoder.encode(query, "UTF-8");
+            String url = "https://api.map.baidu.com/place/v2/search"
+                    + "?query=" + encodedQuery
+                    + "&location=" + lat + "," + lon
+                    + "&radius=" + radius
+                    + "&output=json"
+                    + "&ak=" + API_KEY
+                    + "&page_size=15";
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(null, e);
+        }
+    }
+
+    public static void getRealTimeWeather(double lat, double lon, Callback callback) {
+        String url = "https://api.open-meteo.com/v1/forecast"
+                + "?latitude=" + lat
+                + "&longitude=" + lon
+                + "&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m"
+                + "&timezone=auto";
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
 }

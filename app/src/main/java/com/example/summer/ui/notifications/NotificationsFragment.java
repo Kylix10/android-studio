@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,12 +16,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.summer.R;
 import com.example.summer.databinding.FragmentNotificationsBinding;
+import com.example.summer.utils.LocationStateManager;
+import com.example.summer.datas.LocationConfig;
 
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
     private View rootView;
     private boolean isViewInitialized = false;
+    private LocationStateManager.OnLocationChangeListener locationListener;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +51,15 @@ public class NotificationsFragment extends Fragment {
             initViewModel();
             updateUsername();
             setupClickListeners();
+            
+            // 监听位置状态变化，更新“我的”页面当前位置文字
+            locationListener = config -> {
+                if (binding != null && binding.statusText != null) {
+                    binding.statusText.setText("当前位置：" + config.getName());
+                }
+            };
+            LocationStateManager.getInstance().registerListener(locationListener);
+
             isViewInitialized = true;
         }
     }
@@ -64,6 +77,13 @@ public class NotificationsFragment extends Fragment {
             View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.activity_personal_phone, null);
             // 获取控件
             View confirmButton = dialogView.findViewById(R.id.confirm_service_phone_button);
+            TextView servicePhoneText = dialogView.findViewById(R.id.service_phone_text);
+
+            // 动态读取全局激活定位，并更新咨询服务电话！
+            LocationConfig activeConfig = LocationStateManager.getInstance().getCurrentLocation();
+            if (activeConfig != null && servicePhoneText != null) {
+                servicePhoneText.setText(activeConfig.getServicePhone());
+            }
 
             // 创建 Dialog
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(requireContext())
@@ -87,6 +107,19 @@ public class NotificationsFragment extends Fragment {
             View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.activity_personal_help, null);
             // 获取控件
             View confirmButton = dialogView.findViewById(R.id.confirm_service_help_button);
+            TextView serviceLabelText = dialogView.findViewById(R.id.service_label_text);
+            TextView serviceHelpText = dialogView.findViewById(R.id.service_help_text);
+
+            // 动态设置帮助服务电话与景区专有应急/便民指南！
+            LocationConfig activeConfig = LocationStateManager.getInstance().getCurrentLocation();
+            if (activeConfig != null) {
+                if (serviceLabelText != null) {
+                    serviceLabelText.setText("服务电话: " + activeConfig.getServicePhone());
+                }
+                if (serviceHelpText != null) {
+                    serviceHelpText.setText(activeConfig.getHelpDetails());
+                }
+            }
 
             // 创建 Dialog
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(requireContext())
@@ -125,6 +158,9 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (locationListener != null) {
+            LocationStateManager.getInstance().unregisterListener(locationListener);
+        }
         // 彻底销毁时释放资源
         binding = null;
         rootView = null;
