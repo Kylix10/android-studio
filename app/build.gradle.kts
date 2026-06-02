@@ -1,6 +1,17 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+val wenxinApiKey = localProperties.getProperty("WENXIN_API_KEY") ?: ""
+val wenxinAppId = localProperties.getProperty("WENXIN_APP_ID") ?: ""
 
 android {
     namespace = "com.example.summer"
@@ -31,6 +42,9 @@ android {
         ndk {
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
         }
+
+        buildConfigField("String", "WENXIN_API_KEY", "\"$wenxinApiKey\"")
+        buildConfigField("String", "WENXIN_APP_ID", "\"$wenxinAppId\"")
     }
 
     buildTypes {
@@ -54,6 +68,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

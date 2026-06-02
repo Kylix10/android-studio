@@ -16,9 +16,9 @@ public class WenXin {
 
     private static final String TAG = "WenXin";
 
-    // 请将此处替换为你在千帆控制台获取的真实 API Key
-    private static final String API_KEY = "bce-v3/ALTAK-bPMHgqooLH6SMnZhAxDaL/3ce96d049a8390ab9afdf739c82bfd52d3fbd6f6";
-    private static final String APP_ID = "app-ZdgFs9Hq";
+    // 从编译生成的 BuildConfig 中动态读取安全凭证，避免泄露至 GitHub 仓库
+    private static final String API_KEY = com.example.summer.BuildConfig.WENXIN_API_KEY;
+    private static final String APP_ID = com.example.summer.BuildConfig.WENXIN_APP_ID;
 
     private final OkHttpClient client;
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
