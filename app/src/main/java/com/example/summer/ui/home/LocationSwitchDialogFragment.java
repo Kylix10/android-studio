@@ -149,7 +149,10 @@ public class LocationSwitchDialogFragment extends DialogFragment {
             mLocationClient = new LocationClient(requireContext().getApplicationContext());
             LocationClientOption option = new LocationClientOption();
             option.setIsNeedAddress(true);
-            option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy); // 设置高精度定位模式
+            //option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy); // 设置高精度定位模式
+            option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+            //option.setIsNeedWifi(true); // 强制启用WIFI扫描，关键！
+            //option.setScanSpan(2000);  // 2s轮询，缩短首次定位等待
             option.setCoorType("bd09ll"); // 设置坐标类型为百度经纬度
             option.setScanSpan(1000); // 每一秒定位一次，直到获取成功，防止单次定位初始化失败挂起！
             option.setOpenGps(true);
