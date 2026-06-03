@@ -29,6 +29,14 @@ import com.example.summer.R;
 import com.example.summer.datas.LocationConfig;
 import com.example.summer.utils.LocationStateManager;
 
+import android.widget.EditText;
+import com.example.summer.utils.NetworkUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.IOException;
 import java.util.List;
 
 public class LocationSwitchDialogFragment extends DialogFragment {
@@ -43,6 +51,10 @@ public class LocationSwitchDialogFragment extends DialogFragment {
     private TextView tvCurrentLocationStatus;
     private ImageView ivCurrentCheck;
     private LocationClient mLocationClient;
+    
+    // 手动添加自定义位置控件
+    private EditText etCustomLocationName;
+    private Button btnSearchAdd;
 
     // 超时处理器，防止在无定位信号或初始化失败的设备上挂起
     private final android.os.Handler timeoutHandler = new android.os.Handler(android.os.Looper.getMainLooper());
@@ -132,6 +144,99 @@ public class LocationSwitchDialogFragment extends DialogFragment {
         layoutCurrentLocation.setOnClickListener(v -> {
             tvCurrentLocationStatus.setText("正在尝试获取 GPS 定位...");
             startLocationSearch();
+        });
+
+        // 绑定手动输入自定义景点的控件并实现点击事件
+        etCustomLocationName = rootView.findViewById(R.id.etCustomLocationName);
+        btnSearchAdd = rootView.findViewById(R.id.btnSearchAdd);
+
+        btnSearchAdd.setOnClickListener(v -> {
+            String input = etCustomLocationName.getText().toString().trim();
+            if (input.isEmpty()) {
+                Toast.makeText(getContext(), "请输入景区或地点名称", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            btnSearchAdd.setEnabled(false);
+            btnSearchAdd.setText("添加中...");
+            NetworkUtils.getLocationFromAddress(input, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            btnSearchAdd.setEnabled(true);
+                            btnSearchAdd.setText("添加并切换");
+                            Toast.makeText(getContext(), "获取位置失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String json = response.body().string();
+                        try {
+                            int startIdx = json.indexOf("{");
+                            int endIdx = json.lastIndexOf("}");
+                            if (startIdx != -1 && endIdx != -1) {
+                                json = json.substring(startIdx, endIdx + 1);
+                            }
+                            JSONObject jsonObject = new JSONObject(json);
+                            int status = jsonObject.getInt("status");
+                            if (status == 0) {
+                                JSONObject result = jsonObject.getJSONObject("result");
+                                JSONObject location = result.getJSONObject("location");
+                                double lat = location.getDouble("lat");
+                                double lng = location.getDouble("lng");
+
+                                LocationConfig config = new LocationConfig(
+                                        input,
+                                        lat,
+                                        lng,
+                                        new int[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4},
+                                        "101010100", // 默认北京城市代码，天气 API 直接通过经纬度抓取
+                                        "400-123-4567",
+                                        "\n医疗救助点：您当前位置附近的社区服务点\n\n警务服务站：您当前辖区警务室\n\n周边提供母婴室、残疾人无障碍通道及公共卫生设施。"
+                                );
+
+                                if (getActivity() != null) {
+                                    getActivity().runOnUiThread(() -> {
+                                        LocationStateManager.getInstance().getPresetLocations().add(config);
+                                        LocationStateManager.getInstance().setCurrentLocation(config);
+                                        Toast.makeText(getContext(), "已成功添加并切换景区：" + input, Toast.LENGTH_SHORT).show();
+                                        dismiss();
+                                    });
+                                }
+                            } else {
+                                String msg = jsonObject.optString("message", "未知错误");
+                                if (getActivity() != null) {
+                                    getActivity().runOnUiThread(() -> {
+                                        btnSearchAdd.setEnabled(true);
+                                        btnSearchAdd.setText("添加并切换");
+                                        Toast.makeText(getContext(), "定位失败：" + msg, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
+                                    btnSearchAdd.setEnabled(true);
+                                    btnSearchAdd.setText("添加并切换");
+                                    Toast.makeText(getContext(), "解析位置失败", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }
+                    } else {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                btnSearchAdd.setEnabled(true);
+                                btnSearchAdd.setText("添加并切换");
+                                Toast.makeText(getContext(), "网络请求错误", Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    }
+                }
+            });
         });
     }
 
